@@ -290,8 +290,8 @@ const T = {
   min:"min", eachSide:"each side", adjusted:"Adjusted for your body",
   letsGo:"Let's go",
   foot:"Log in with the same username on any device to continue where you left off.",
-  footLocal:"Progress is saved in this browser only. Sign in to Claude to sync across devices.",
-  syncCloud:"☁️ Synced", syncLocal:"📱 This device only", syncSaving:"☁️ Saving…"
+  footLocal:"Can't reach the server right now. Progress is saved on this device and will sync when you're back online.",
+  syncCloud:"☁️ Synced", syncLocal:"📱 Offline: saved here", syncSaving:"☁️ Saving…"
  },
  ar:{
   brand:{n:"فِت ٣٠",f:"بينك ٣٠",m:"آيرون ٣٠"},
@@ -347,8 +347,8 @@ const T = {
   min:"دقيقة", eachSide:"لكل ناحية", adjusted:"متعدّل عشان جسمك",
   letsGo:"يلا بينا",
   foot:"ادخل/ي بنفس اسم المستخدم من أي جهاز وكمّل/ي من مكان ما وقفت.",
-  footLocal:"التقدم محفوظ في المتصفح ده بس. سجّل/ي دخول في Claude عشان يتزامن على كل الأجهزة.",
-  syncCloud:"☁️ متزامن", syncLocal:"📱 الجهاز ده بس", syncSaving:"☁️ بيتحفظ…"
+  footLocal:"مفيش اتصال بالسيرفر دلوقتي. التقدم محفوظ على الجهاز ده وهيتزامن لما النت يرجع.",
+  syncCloud:"☁️ متزامن", syncLocal:"📱 أوفلاين: محفوظ هنا", syncSaving:"☁️ بيتحفظ…"
  }
 };
 function gsel(v){ return (v && typeof v==="object" && !Array.isArray(v) && "f" in v && "m" in v && typeof v.f!=="object") ? v[G==="m"?"m":"f"] : v; }
@@ -573,38 +573,47 @@ const lkey = u => "fit30:u:" + u;
 const users = () => store.get("fit30:users") || [];
 function remember(u){ const l = users(); if(!l.includes(u)){ l.push(u); store.set("fit30:users",l); } store.set("fit30:last",u); }
 
-let db = null, cloudOK = false;
-const dbReady = (window.claude && typeof window.claude.use==="function")
-  ? Promise.race([window.claude.use("db").catch(()=>null), new Promise(r=>setTimeout(()=>r(null),6000))])
-  : Promise.resolve(null);
-dbReady.then(d=>{ db = d; cloudOK = !!d; updateSync(); });
-const ref = u => db.doc("profiles/" + u);
-
+// ---- Supabase (progress synced by username across devices) ----
+const SB_URL = "https://vwtwerzkcoamijjmblky.supabase.co";
+const SB_KEY = "sb_publishable_3zIYmiJuOfUmTLxVKWCMzA_A48rujVO";
+let cloudOK = true;
+async function rpc(fn, body, keepalive){
+  const ctl = new AbortController(), timer = setTimeout(()=>ctl.abort(), 8000);
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {method:"POST", keepalive:!!keepalive, signal:ctl.signal,
+    headers:{apikey:SB_KEY, "Content-Type":"application/json"}, body:JSON.stringify(body)});
+  clearTimeout(timer);
+  if(!r.ok) throw new Error("HTTP " + r.status);
+  const txt = await r.text(); return txt ? JSON.parse(txt) : null;
+}
 async function fetchProfile(u){
-  await dbReady;
-  if(db){ try{ const snap = await ref(u).get(); if(snap.exists) return {data:JSON.parse(JSON.stringify(snap.data())), cloud:true}; }catch(e){ cloudOK = false; } }
-  const local = store.get(lkey(u)) || store.get("pink30:u:"+u); // includes profiles from the previous version
+  let cloud = null;
+  try{ cloud = await rpc("get_profile", {p_username:u}); cloudOK = true; }catch(e){ cloudOK = false; }
+  const local = store.get(lkey(u)) || store.get("pink30:u:"+u);
+  updateSync();
+  if(cloud && local && (local.updated||0) > (cloud.updated||0)) return {data:local, cloud:false}; // newer offline edits win
+  if(cloud) return {data:cloud, cloud:true};
   return local ? {data:local, cloud:false} : null;
 }
-let saveTimer = null, writing = false, dirty = false, saving = false;
+let saveTimer = null, retryTimer = null, writing = false, dirty = false, saving = false;
 function persist(){
   if(!user) return;
   state.updated = Date.now(); store.set(lkey(user), state);
-  if(!db || !cloudOK){ updateSync(); return; }
   dirty = true; saving = true; updateSync();
   clearTimeout(saveTimer); saveTimer = setTimeout(flush, 700);
 }
-async function flush(){
-  if(writing || !dirty || !db || !cloudOK || !user) return;
+async function flush(keepalive){
+  if(writing || !dirty || !user) return;
   writing = true; dirty = false;
-  try{ await ref(user).set(JSON.parse(JSON.stringify(state))); saving = false; }
-  catch(e){ if(e && e.code==="unavailable"){ dirty = true; setTimeout(flush, 1500+Math.random()*1000); } else { cloudOK = false; saving = false; } }
-  writing = false; updateSync(); if(dirty) flush();
+  try{ await rpc("save_profile", {p_username:user, p_data:JSON.parse(JSON.stringify(state))}, keepalive); cloudOK = true; saving = false; }
+  catch(e){ cloudOK = false; dirty = true; clearTimeout(retryTimer); retryTimer = setTimeout(()=>flush(), 15000); }
+  writing = false; updateSync();
+  if(dirty && cloudOK) flush();
 }
+window.addEventListener("online", ()=>flush());
 function updateSync(){
-  const el = $("#sync"); if(!el) return; const cloud = db && cloudOK;
-  el.textContent = !cloud ? t("syncLocal") : saving ? t("syncSaving") : t("syncCloud");
-  $("#foot").textContent = cloud ? t("foot") : t("footLocal");
+  const el = $("#sync"); if(!el) return;
+  el.textContent = !cloudOK ? t("syncLocal") : saving ? t("syncSaving") : t("syncCloud");
+  $("#foot").textContent = cloudOK ? t("foot") : t("footLocal");
 }
 
 /* ================= helpers ================= */
@@ -766,7 +775,7 @@ function showApp(){ $("#gate").classList.add("hidden"); $("#app").classList.remo
 function showGate(){ $("#app").classList.add("hidden"); $("#gate").classList.remove("hidden"); renderGate(); }
 
 /* ================= app ================= */
-$("#logout").onclick = async () => { clearTimeout(saveTimer); await flush(); user = null; state = null; wiz = null; store.set("fit30:last",null); showGate(); };
+$("#logout").onclick = () => { clearTimeout(saveTimer); flush(); user = null; state = null; wiz = null; store.set("fit30:last",null); showGate(); };
 $("#bodyBtn").onclick = () => openBody();
 
 function stats(){
@@ -986,10 +995,10 @@ function openOff(date, s){
 }
 
 /* ================= boot ================= */
-applyLang(); renderGate(); updateSync();
+applyLang(); renderGate();
 const last = store.get("fit30:last");
 if(last && cleanName(last)) lookup(last);
-window.addEventListener("pagehide", ()=>{ clearTimeout(saveTimer); flush(); });
+window.addEventListener("pagehide", ()=>{ clearTimeout(saveTimer); flush(true); });
 })();
 </script>
 </body>
