@@ -187,6 +187,19 @@ html[data-g="m"] .cb{border-radius:6px}
 textarea.field{min-height:84px;resize:vertical;margin-top:12px}
 .saved-note{background:var(--soft2);border-radius:var(--rs);padding:10px 12px;margin-top:12px;font-size:.92rem}
 .saved-note small{display:block;color:var(--muted)}
+.thumb{flex:none;border:none;padding:0;background:none;border-radius:var(--rs);cursor:zoom-in}
+.exi{display:block;width:76px;height:51px;background:var(--soft2);border-radius:var(--rs)}
+.item.checked .exi{background:var(--paper)}
+.bigfig .exi{width:100%;height:auto;aspect-ratio:3/2}
+.exi .b{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.exi .h{fill:var(--ink)}
+.exi .eq{stroke:var(--accent);fill:var(--accent);stroke-width:3}
+.exi .bd{fill:none;stroke:var(--accent);stroke-width:2.5}
+.exi .bn{fill:none;stroke:var(--muted);stroke-width:3;stroke-linecap:round}
+.exi .fl{stroke:var(--line);stroke-width:2}
+.exi .ar{stroke:var(--deep);stroke-width:2;stroke-dasharray:3 3}
+.exi .ah{stroke:var(--deep);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.item > div{flex:1;min-width:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--deep);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:40;font-weight:600;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
 .foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:20px}
 </style>
@@ -387,6 +400,50 @@ const EX = {
   bird_f:["Bird Dog (on forearms)","On your forearms to keep weight off the wrists.","على الساعدين عشان مفيش ضغط على الرسغ."],
   splank:["Side Plank (on knees)","Hips up in a straight line, breathe steadily.","الحوض لفوق في خط مستقيم، والتنفس منتظم."]
 };
+/* ================= exercise illustrations (original SVG) ================= */
+const FIG = (()=>{
+  const L = p => `<polyline points="${p}" class="b"/>`;
+  const H = (x,y) => `<circle cx="${x}" cy="${y}" r="6" class="h"/>`;
+  const D = (x,y,v) => v
+    ? `<g class="eq"><line x1="${x}" y1="${y-6}" x2="${x}" y2="${y+6}"/><rect x="${x-3}" y="${y-8}" width="6" height="3"/><rect x="${x-3}" y="${y+5}" width="6" height="3"/></g>`
+    : `<g class="eq"><line x1="${x-6}" y1="${y}" x2="${x+6}" y2="${y}"/><rect x="${x-8}" y="${y-3}" width="3" height="6"/><rect x="${x+5}" y="${y-3}" width="3" height="6"/></g>`;
+  const BD = p => `<polyline points="${p}" class="bd"/>`;
+  const BN = (x,y,w,h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1.5" class="bn"/>`;
+  const LG = (...xs) => xs.map(([x1,y1,x2,y2])=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="bn"/>`).join("");
+  const FL = `<line x1="4" y1="73" x2="116" y2="73" class="fl"/>`;
+  const ar = (x1,y1,x2,y2) => { const a = Math.atan2(y2-y1,x2-x1), h = 5, f = n => n.toFixed(1);
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="ar"/><polyline points="${f(x2-h*Math.cos(a-0.55))},${f(y2-h*Math.sin(a-0.55))} ${x2},${y2} ${f(x2-h*Math.cos(a+0.55))},${f(y2-h*Math.sin(a+0.55))}" class="ah"/>`; };
+  const bench = (x,y,w) => BN(x,y,w,5) + LG([x+4,y+5,x+4,73],[x+w-4,y+5,x+w-4,73]);
+  const F = {
+    bridge:   FL + H(14,64) + L("24,68 52,50 72,42 78,71") + L("26,69 46,71") + ar(52,70,52,58),
+    sl_bridge:FL + H(14,64) + L("24,68 52,50 70,42 76,71") + L("52,50 98,30") + L("26,69 46,71") + ar(52,70,52,58),
+    rdl:      FL + H(30,26) + L("38,32 66,42") + L("66,42 62,57 64,72") + L("66,42 68,57 71,72") + L("40,33 42,46 44,56") + D(44,59) + ar(18,32,24,46),
+    pull:     FL + BN(106,40,5,33) + H(30,26) + L("38,32 66,42") + L("66,42 62,57 64,72") + L("66,42 70,57 73,72") + L("40,33 50,46 58,58") + BD("58,58 106,56") + ar(30,52,24,38),
+    thrust:   FL + bench(6,48,26) + H(14,40) + L("24,46 54,44 74,44 78,72") + L("26,47 34,54") + D(54,38) + ar(54,68,54,54),
+    abd:      FL + bench(40,46,40) + H(60,12) + L("60,20 60,46") + L("52,22 46,34 44,46") + L("68,22 74,34 76,46") + L("56,48 42,54 40,72") + L("64,48 78,54 80,72") + BD("42,53 78,53") + ar(34,62,24,62) + ar(86,62,96,62),
+    clam:     FL + H(14,58) + L("24,63 58,65") + L("24,64 20,71") + L("58,65 80,67 96,70") + L("58,65 76,46 94,67") + ar(88,58,82,46),
+    calf:     FL + H(60,9) + L("60,17 60,42") + L("60,42 59,56 59,64 66,71") + L("60,42 62,56 62,64 69,71") + L("60,20 63,30 64,40") + D(64,43) + ar(48,70,48,56),
+    scalf:    FL + bench(34,44,32) + H(52,10) + L("52,18 54,42") + L("54,42 78,42") + L("78,42 80,62 88,71") + L("52,22 62,32 74,36") + D(78,37) + ar(98,70,98,58),
+    press:    FL + bench(40,48,40) + H(60,18) + L("60,26 60,48") + L("48,28 72,28") + L("48,28 40,18 44,7") + L("72,28 80,18 76,7") + D(44,6) + D(76,6) + L("54,50 48,56 46,72") + L("66,50 72,56 74,72") + ar(28,26,28,12) + ar(92,26,92,12),
+    face:     FL + BN(4,6,5,67) + BD("9,22 40,20") + H(54,12) + L("56,20 58,46") + L("58,46 54,60 52,72") + L("58,46 64,60 66,72") + L("56,22 46,14 40,20") + ar(22,32,38,32),
+    row: FL + bench(46,46,56) + H(98,26) + L("88,32 56,34") + L("88,32 94,46") + L("56,34 62,46 50,46") + L("56,34 44,56 40,72") + L("84,33 74,20 76,36") + D(76,39) + ar(110,42,110,26),
+    crow: FL + LG([44,72,94,40],[70,56,70,73]) + H(100,34) + L("90,42 60,60") + L("60,60 50,66 40,72") + L("88,44 90,56 90,64") + D(90,67) + ar(104,66,104,52),
+    floor:    FL + H(14,62) + L("24,67 56,68") + L("56,68 74,50 84,71") + L("26,67 24,54 28,41") + D(28,38) + ar(42,58,42,42),
+    lat:      FL + H(60,10) + L("60,18 60,46") + L("60,46 54,72") + L("60,46 66,72") + L("30,22 90,22") + D(28,22,true) + D(92,22,true) + ar(40,36,32,28) + ar(80,36,88,28),
+    curl:     FL + H(60,9) + L("60,17 60,44") + L("60,44 58,58 58,72") + L("60,44 63,58 65,72") + L("60,20 62,34 74,24") + D(76,22) + ar(86,42,86,26),
+    tri: FL + H(66,22) + L("60,30 60,50") + L("60,50 57,62 56,72") + L("60,50 64,62 66,72") + L("60,30 58,7 46,18") + D(43,19,true) + ar(82,24,82,8),
+    kick:     FL + H(30,24) + L("38,30 68,40") + L("68,40 64,56 66,72") + L("68,40 72,56 75,72") + L("42,32 56,36 76,32") + D(79,31,true) + ar(70,48,84,40),
+    deadbug:  FL + H(14,62) + L("24,67 54,67") + L("54,67 56,46 74,46") + L("54,67 98,63") + L("26,66 28,42") + L("24,69 4,70") + ar(86,52,98,56),
+    bird:     FL + H(24,36) + L("32,46 72,46") + L("32,46 32,72") + L("32,46 6,47") + L("72,46 108,43") + L("72,46 72,72 90,72"),
+    splank:   FL + H(18,40) + L("24,48 56,58 84,70") + L("24,48 24,71 38,71") + L("84,70 72,60") + L("26,46 44,52 54,56") + ar(56,70,56,60),
+    walk:     FL + BN(18,64,86,7) + LG([100,64,108,26],[108,26,92,30]) + H(58,10) + L("58,18 58,42") + L("58,42 50,53 44,63") + L("58,42 64,53 70,63") + L("58,22 52,32 48,40") + L("58,22 64,31 72,34"),
+    stretch:  FL + H(76,40) + L("38,70 68,48") + L("38,70 98,70") + L("68,48 82,58 94,64")
+  };
+  const ALIAS = {bridge_s:"bridge", rdl_l:"rdl", floor_n:"floor", lat_p:"lat", hammer:"curl", bird_f:"bird",
+    warm:"walk", w1:"walk", w2:"walk", l1:"walk", cool:"stretch", w3:"stretch", l2:"stretch"};
+  return id => { const k = F[id] ? id : ALIAS[id]; return k ? `<svg viewBox="0 0 120 80" class="exi" aria-hidden="true">${F[k]}</svg>` : ""; };
+})();
+
 const SIDE = new Set(["row","crow","sl_bridge","clam","bird","bird_f","splank"]);
 const WK = {
   FBA:["Full Body A",[["bridge","3 × 12–15"],["rdl","3 × 10–12"],["press","3 × 10–12"],["row","3 × 10–12"],["floor","3 × 10–12"],["lat","2 × 12–15"],["deadbug","3 × 8–10"]]],
@@ -956,6 +1013,7 @@ function renderSheet(date){
     <div class="muted" style="font-size:.85rem">${t("of",num(doneN),num(total))}</div>
     <ul class="list">${items.map(it=>`<li class="item${ds.checks[it.id]?" checked":""}">
       <button class="cb" data-check="${it.id}" role="checkbox" aria-checked="${!!ds.checks[it.id]}" aria-label="${esc(it.name)}">${ds.checks[it.id]?"✓":""}</button>
+      ${FIG(it.id) ? `<button class="thumb" data-fig="${it.id}" aria-label="${esc(it.name)}">${FIG(it.id)}</button>` : ""}
       <div><div class="iname">${esc(it.name)}${it.swapped?`<span class="swap">${t("adjusted")}</span>`:""}</div>${it.sets?`<div class="isets">${esc(it.sets)}</div>`:""}${it.note?`<div class="inote">${esc(it.note)}</div>`:""}</div></li>`).join("")}</ul>` : ""}
     <div class="actions">${actions}</div></div></div>`;
 
@@ -976,6 +1034,11 @@ function renderSheet(date){
     state.days[date] = ds; persist(); toast(mode==="done" ? t("toastDone") : t("toastMissed")); mode = null; renderSheet(date); renderApp();
   });
   on("offBtn", ()=>openOff(date, s));
+  document.querySelectorAll("[data-fig]").forEach(b=>b.onclick=()=>{
+    const it = items.find(x=>x.id===b.dataset.fig); if(!it) return;
+    modal(`<div class="bigfig">${FIG(it.id)}</div><h2>${esc(it.name)}</h2>${it.sets?`<p class="isets" style="text-align:center">${esc(it.sets)}</p>`:""}${it.note?`<p class="muted" style="text-align:center">${esc(it.note)}</p>`:""}<button class="btn block" id="figOk" style="margin-top:8px">${lang==="ar"?"تمام":"Got it"}</button>`);
+    $("#figOk").onclick = closeModal; $("#figOk").focus();
+  });
   on("undoOff", ()=>{ state.offs = state.offs.filter(o=>o.date!==date); persist(); toast(t("toastUndo")); renderApp(); renderSheet(date); });
 }
 function openOff(date, s){
