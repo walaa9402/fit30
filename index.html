@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-g="n">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fit 30</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+Bhaijaan+2:wght@400;500;600;700&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== themes: n = neutral (login), f = female, m = male ===== */
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html[data-g="n"]{--bg:#EEF0F2;--paper:#FFFFFF;--soft:#E2E8E6;--soft2:#F5F7F7;--accent:#3F7D6E;--deep:#24493F;--ink:#1E2A30;--muted:#66737B;--off:#A3AEB6;--off-soft:#E6EBEE;--line:#D3DAE0;--on:#FFFFFF;--r:20px;--rs:14px;--shadow:0 8px 24px rgba(30,42,48,.08)}
+html[data-g="f"]{--bg:#FFF3F6;--paper:#FFFFFF;--soft:#FFDCE7;--soft2:#FFEAF0;--accent:#FF7EA6;--deep:#C2185B;--ink:#4B2240;--muted:#9A7488;--off:#B9A6D6;--off-soft:#EEE7F8;--line:#F6C9D8;--on:#FFFFFF;--r:28px;--rs:18px;--shadow:0 8px 24px rgba(194,24,91,.12)}
+html[data-g="m"]{--bg:#E9EDF0;--paper:#FFFFFF;--soft:#D3ECEE;--soft2:#F2F6F7;--accent:#0E9AA7;--deep:#0A4F57;--ink:#111B22;--muted:#5B6973;--off:#97A3AB;--off-soft:#E1E7EA;--line:#C9D3D9;--on:#FFFFFF;--r:10px;--rs:6px;--shadow:0 6px 18px rgba(17,27,34,.10)}
+@media (prefers-color-scheme:dark){
+  html[data-g="n"]:not([data-theme="light"]){--bg:#171C1F;--paper:#212A2F;--soft:#2C3A38;--soft2:#1D2529;--accent:#6FC2AC;--deep:#A6E3D2;--ink:#E9EEF1;--muted:#9AA7AF;--off:#5F6C74;--off-soft:#2A3338;--line:#35424A;--on:#13201C;--shadow:0 8px 24px rgba(0,0,0,.35)}
+  html[data-g="f"]:not([data-theme="light"]){--bg:#2A1622;--paper:#3A1F30;--soft:#5A2C45;--soft2:#46243A;--accent:#FF8FB4;--deep:#FFB3CC;--ink:#FFE8F0;--muted:#C9A3B6;--off:#9E8AC4;--off-soft:#3B2D4A;--line:#5E3450;--on:#3A1F30;--shadow:0 8px 24px rgba(0,0,0,.35)}
+  html[data-g="m"]:not([data-theme="light"]){--bg:#0F1418;--paper:#182026;--soft:#1E3A40;--soft2:#141B20;--accent:#22D3C5;--deep:#7EF0E6;--ink:#E8F1F3;--muted:#8D9BA4;--off:#4E5B63;--off-soft:#232D33;--line:#2A353C;--on:#0F1418;--shadow:0 6px 18px rgba(0,0,0,.45)}
+}
+html[data-g="n"][data-theme="dark"]{--bg:#171C1F;--paper:#212A2F;--soft:#2C3A38;--soft2:#1D2529;--accent:#6FC2AC;--deep:#A6E3D2;--ink:#E9EEF1;--muted:#9AA7AF;--off:#5F6C74;--off-soft:#2A3338;--line:#35424A;--on:#13201C;--shadow:0 8px 24px rgba(0,0,0,.35)}
+html[data-g="f"][data-theme="dark"]{--bg:#2A1622;--paper:#3A1F30;--soft:#5A2C45;--soft2:#46243A;--accent:#FF8FB4;--deep:#FFB3CC;--ink:#FFE8F0;--muted:#C9A3B6;--off:#9E8AC4;--off-soft:#3B2D4A;--line:#5E3450;--on:#3A1F30;--shadow:0 8px 24px rgba(0,0,0,.35)}
+html[data-g="m"][data-theme="dark"]{--bg:#0F1418;--paper:#182026;--soft:#1E3A40;--soft2:#141B20;--accent:#22D3C5;--deep:#7EF0E6;--ink:#E8F1F3;--muted:#8D9BA4;--off:#4E5B63;--off-soft:#232D33;--line:#2A353C;--on:#0F1418;--shadow:0 6px 18px rgba(0,0,0,.45)}
+
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Rubik",system-ui,"Segoe UI",Tahoma,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .3s}
+html[data-g="f"] body{font-family:"Fredoka","Baloo Bhaijaan 2",ui-rounded,"Segoe UI",sans-serif}
+html[data-g="f"][lang="ar"] body{font-family:"Baloo Bhaijaan 2","Fredoka",Tahoma,sans-serif}
+html[data-g="m"] h1,html[data-g="m"] h2,html[data-g="m"] .logo{font-weight:800;letter-spacing:-.01em}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.6;cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:var(--rs)}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 48px}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+
+/* bar */
+.bar{display:flex;align-items:center;gap:8px;padding:6px 0 14px;flex-wrap:wrap}
+.logo{font-weight:700;font-size:1.35rem;color:var(--deep);display:flex;align-items:center;gap:6px;margin-inline-end:auto}
+.chip{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;font-weight:600;font-size:.88rem}
+html[data-g="m"] .chip{border-radius:var(--rs)}
+.chip:hover{border-color:var(--accent)}
+.sync{border-style:dashed;font-weight:500;font-size:.78rem;cursor:default}
+
+/* gate */
+.gate{min-height:85vh;display:grid;place-items:center}
+.card{background:var(--paper);border-radius:var(--r);padding:28px 22px;box-shadow:var(--shadow);width:100%;max-width:460px;border:2px solid var(--line)}
+.card h1{font-size:2rem;line-height:1.15;margin:6px 0;color:var(--deep)}
+.card h2{font-size:1.4rem;line-height:1.25;margin:4px 0 6px}
+.center{text-align:center}
+.steps{display:flex;gap:6px;justify-content:center;margin-bottom:14px}
+.steps i{width:28px;height:6px;border-radius:9px;background:var(--line)}
+.steps i.on{background:var(--accent)}
+.field{width:100%;border:2px solid var(--line);border-radius:var(--rs);padding:12px 14px;background:var(--soft2);font-size:1.05rem}
+.field:focus{outline:none;border-color:var(--accent)}
+label.lb{display:block;font-size:.9rem;color:var(--muted);margin:12px 0 4px}
+.btn{border:none;border-radius:var(--rs);padding:12px 20px;font-weight:600;font-size:1rem;background:var(--accent);color:var(--on);box-shadow:0 4px 0 var(--deep)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--deep)}
+.btn.soft{background:var(--soft);color:var(--ink);box-shadow:0 4px 0 var(--line)}
+.btn.offc{background:var(--off);color:#fff;box-shadow:0 4px 0 var(--muted)}
+.btn.block{width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row > .btn{flex:1;min-width:130px}
+.link{background:none;border:none;color:var(--deep);text-decoration:underline;padding:6px 0;font-size:.9rem}
+.err{color:#D2304A;font-size:.9rem;min-height:1.4em;margin:8px 0 0}
+html[data-theme="dark"] .err{color:#FF8A9B}
+@media (prefers-color-scheme:dark){html:not([data-theme="light"]) .err{color:#FF8A9B}}
+.profiles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.choice{display:grid;gap:10px;margin-top:14px}
+.opt{display:flex;align-items:center;gap:12px;text-align:start;border:2px solid var(--line);background:var(--soft2);border-radius:var(--rs);padding:12px 14px;width:100%}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--soft)}
+.opt .em{font-size:1.6rem;line-height:1;flex:none}
+.opt b{display:block}
+.opt small{color:var(--muted);display:block;line-height:1.35}
+.gpick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.gpick button{border:2px solid var(--line);background:var(--soft2);border-radius:var(--r);padding:22px 10px;font-weight:600;font-size:1.1rem;display:flex;flex-direction:column;align-items:center;gap:6px}
+.gpick button span{font-size:2.4rem;line-height:1}
+.gpick button:hover{border-color:var(--accent)}
+.box{margin-top:12px;padding:10px 12px;border-radius:var(--rs);background:var(--soft2);border:2px dashed var(--line);font-size:.9rem}
+.warn{border-color:#E0A33A;background:rgba(224,163,58,.12)}
+
+/* hero */
+.hero{background:var(--paper);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);border:2px solid var(--line);margin-bottom:16px;position:relative;overflow:hidden}
+html[data-g="f"] .hero::after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:var(--soft);opacity:.6}
+html[data-g="m"] .hero{border-inline-start:6px solid var(--accent)}
+.hero > *{position:relative;z-index:1}
+.hero h2{margin:0;font-size:1.6rem;line-height:1.2}
+.hero .sub{color:var(--muted);margin:2px 0 14px}
+.ribbon{display:flex;flex-wrap:wrap;gap:4px}
+.ribbon span{flex:1 0 calc(100%/16 - 4px);max-width:22px;height:10px;border-radius:9px;background:var(--line)}
+html[data-g="m"] .ribbon span{border-radius:2px}
+.ribbon span.d{background:var(--accent)}
+.ribbon span.x{background:var(--off)}
+.ribbon span.o{background:repeating-linear-gradient(45deg,var(--line) 0 3px,var(--paper) 3px 6px)}
+.stats{display:flex;gap:16px;margin-top:12px;font-size:.92rem;color:var(--muted);flex-wrap:wrap}
+.stats b{color:var(--ink);font-size:1.05rem}
+.ext{margin-top:14px;padding:12px 14px;border-radius:var(--rs);background:var(--soft);font-size:.92rem}
+.ext .btn{margin-top:8px}
+
+/* panels */
+.strip{display:grid;gap:12px;margin-bottom:16px}
+@media(min-width:620px){.strip.two{grid-template-columns:1fr 1fr}}
+.note{background:var(--soft2);border:2px dashed var(--line);border-radius:var(--r);padding:14px 16px;font-size:.95rem}
+html[data-g="m"] .note{border-style:solid}
+.note h3{margin:0 0 4px;font-size:1rem;display:flex;align-items:center;gap:6px}
+.note p{margin:0}
+.note select{border:2px solid var(--line);background:var(--paper);border-radius:var(--rs);padding:2px 8px;font-size:.85rem;margin-top:8px}
+.glasses{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.glass{width:30px;height:36px;border:2px solid var(--accent);border-radius:4px 4px 10px 10px;background:transparent;padding:0;position:relative;overflow:hidden}
+.glass.full::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70%;background:var(--accent);opacity:.75}
+.panel{background:var(--paper);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:2px solid var(--line);margin-bottom:16px}
+.panel h3{margin:0 0 10px;font-size:1.15rem}
+.wnums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.wnums div{background:var(--soft2);border-radius:var(--rs);padding:8px 4px}
+.wnums b{display:block;font-size:1.3rem;line-height:1.2}
+.wnums small{color:var(--muted);font-size:.78rem}
+.wbar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin:12px 0 4px}
+.wbar div{height:100%;background:var(--accent);border-radius:9px;transition:width .3s}
+.spark{width:100%;height:70px;margin-top:6px;display:block}
+.wadd{display:flex;gap:8px;margin-top:10px}
+.wadd .field{padding:8px 12px;font-size:1rem}
+.wadd .btn{padding:8px 16px;flex:none}
+.wlist{list-style:none;padding:0;margin:10px 0 0;font-size:.9rem}
+.wlist li{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)}
+.wlist button{border:none;background:none;color:var(--muted);font-size:.9rem;padding:2px 6px}
+
+/* calendar */
+.dow,.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.dow div{text-align:center;font-size:.75rem;color:var(--muted);font-weight:600;padding-bottom:4px}
+.mlabel{grid-column:1/-1;font-size:.82rem;color:var(--muted);margin:10px 4px 2px;font-weight:600}
+.day{border:2px solid var(--line);background:var(--soft2);border-radius:var(--rs);padding:6px 2px 4px;min-height:74px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;position:relative;transition:transform .12s}
+.day:hover{transform:translateY(-2px);border-color:var(--accent)}
+.day .dnum{font-size:.95rem;font-weight:700;line-height:1}
+.day .dmon{font-size:.62rem;color:var(--muted);line-height:1}
+.day .kind{font-size:1.1rem;line-height:1}
+.day .lbl{font-size:.6rem;color:var(--muted);line-height:1}
+.day.today{border-color:var(--deep);border-width:3px}
+.day.done{background:var(--accent);border-color:var(--accent);color:var(--on)}
+.day.done .dmon,.day.done .lbl{color:var(--on)}
+.day.missed{background:var(--off-soft);border-color:var(--off)}
+.day.offday{background:repeating-linear-gradient(45deg,var(--soft2) 0 6px,var(--paper) 6px 12px);border-style:dashed}
+.day .badge{position:absolute;top:-6px;inset-inline-end:-4px;font-size:.85rem}
+.day.out{opacity:.3;pointer-events:none;background:transparent}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin:14px 4px 2px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-1px;margin-inline-end:4px}
+
+/* sheets & modals */
+.scrim{position:fixed;inset:0;background:rgba(17,20,24,.4);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.scrim.mid{align-items:center}
+@media(min-width:700px){.scrim{align-items:center}}
+.sheet{background:var(--bg);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:var(--r) var(--r) 0 0;padding:18px 18px calc(24px + env(safe-area-inset-bottom,0px));animation:up .25s ease-out}
+@media(min-width:700px){.sheet{border-radius:var(--r)}}
+.modal{background:var(--paper);border-radius:var(--r);padding:24px 20px;max-width:440px;width:calc(100% - 32px);max-height:90vh;overflow:auto;margin:auto;border:2px solid var(--line);box-shadow:var(--shadow);animation:up .25s ease-out}
+.modal .big{font-size:2.8rem;line-height:1;text-align:center}
+.modal h2{margin:8px 0;color:var(--deep);font-size:1.4rem;line-height:1.25;text-align:center}
+.modal p{margin:8px 0}
+@keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet,.modal{animation:none}.day,body{transition:none}}
+.sheet-head{display:flex;align-items:flex-start;gap:10px}
+.sheet-head h2{margin:0;font-size:1.5rem;line-height:1.15}
+.x{margin-inline-start:auto;border:none;background:var(--soft);width:38px;height:38px;border-radius:50%;font-size:1.1rem;flex:none}
+.pill{display:inline-block;background:var(--soft);border-radius:999px;padding:3px 12px;font-size:.85rem;font-weight:600;margin:8px 6px 0 0}
+html[data-g="m"] .pill{border-radius:var(--rs)}
+.pill.s-done{background:var(--accent);color:var(--on)}
+.pill.s-missed{background:var(--off);color:#fff}
+.coach{background:var(--paper);border-inline-start:5px solid var(--accent);border-radius:var(--rs);padding:10px 14px;margin:12px 0 0;font-size:.93rem}
+.coach + .coach{margin-top:8px}
+.prog{height:12px;background:var(--soft);border-radius:999px;overflow:hidden;margin:6px 0 4px}
+.prog > div{height:100%;background:var(--accent);border-radius:999px;transition:width .25s}
+.list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
+.item{background:var(--paper);border:2px solid var(--line);border-radius:var(--rs);padding:10px 12px;display:flex;gap:12px;align-items:flex-start}
+.item.checked{border-color:var(--accent);background:var(--soft2)}
+.item.checked .iname{text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px}
+.cb{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--accent);background:var(--paper);display:grid;place-items:center;font-size:.95rem;padding:0;color:var(--on)}
+html[data-g="m"] .cb{border-radius:6px}
+.item.checked .cb{background:var(--accent)}
+.iname{font-weight:600;line-height:1.3}
+.isets{color:var(--deep);font-weight:600;font-size:.9rem}
+.inote{color:var(--muted);font-size:.86rem;margin-top:2px}
+.swap{font-size:.75rem;background:var(--soft);border-radius:6px;padding:1px 6px;margin-inline-start:6px;font-weight:500;color:var(--deep)}
+.actions{margin-top:20px;background:var(--paper);border-radius:var(--r);padding:16px;border:2px solid var(--line)}
+.actions h3{margin:0 0 10px;font-size:1.05rem}
+textarea.field{min-height:84px;resize:vertical;margin-top:12px}
+.saved-note{background:var(--soft2);border-radius:var(--rs);padding:10px 12px;margin-top:12px;font-size:.92rem}
+.saved-note small{display:block;color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--deep);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:40;font-weight:600;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
+.foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="gate" class="gate"><div class="card" id="gateCard"></div></section>
+
+  <section id="app" class="hidden">
+    <div class="bar">
+      <div class="logo" id="logo"></div>
+      <span class="chip sync" id="sync"></span>
+      <button class="chip" data-lang-toggle></button>
+      <button class="chip" id="bodyBtn"></button>
+      <button class="chip" id="logout"></button>
+    </div>
+    <div class="hero" id="hero"></div>
+    <div id="sevBanner"></div>
+    <div class="strip two">
+      <div class="note"><h3>☁️ <span id="wxTitle"></span></h3><p id="weatherLine"></p><select id="city" aria-label="City"></select></div>
+      <div class="note"><h3>💧 <span id="waterTitle"></span></h3><p id="waterLine"></p><div class="glasses" id="glasses"></div></div>
+    </div>
+    <div class="panel" id="weight"></div>
+    <div class="panel">
+      <h3 id="calTitle"></h3>
+      <div class="dow" id="dow"></div>
+      <div class="grid" id="grid"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <p class="foot" id="foot"></p>
+  </section>
+</div>
+<div id="sheetRoot"></div>
+<div id="modalRoot"></div>
+
+<script>
+(function(){
+"use strict";
+/* ================= storage ================= */
+const mem = {};
+const store = {
+  get(k){ try{ const v = localStorage.getItem(k); if(v!==null) return JSON.parse(v); }catch(e){} return mem[k] ?? null; },
+  set(k,v){ mem[k]=v; try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ================= i18n ================= */
+let lang = store.get("fit30:lang") || "en";
+let G = "n"; // n | f | m
+const T = {
+ en:{
+  brand:{n:"Fit 30",f:"Pink 30",m:"Iron 30"},
+  loginSub:"Your 30-day training plan. Enter your username to continue, or pick a new one to start your journey.",
+  placeholder:"Username", cont:"Continue", checking:"Looking you up…",
+  errName:"Use 3–24 English letters or numbers (_ . - allowed).", savedOn:"Saved on this device:",
+  back:"Back", stepOf:(a,b)=>`Step ${a} of ${b}`,
+  gTitle:n=>`Nice to meet you, ${n}! Who's training?`, female:"Female", male:"Male",
+  wTitle:"Your weight", wSub:"We'll use this to track your progress.", wCur:"Current weight (kg)", wGoal:"Goal weight (kg)",
+  errW:"Enter both weights between 30 and 300 kg.",
+  pTitle:"Any pain or injuries?", pSub:"Tick everything that bothers you. We'll swap exercises to protect it.",
+  pNone:"No pain, all good", pSevere:"The pain is sharp, getting worse, or from a recent injury",
+  severeNote:"Please check with a doctor or physiotherapist before you start. Stop any exercise that causes sharp pain.",
+  rTitle:"How many strength days per week?", rSub:"The other days are walking, plus one rest day.",
+  rDesc:(n,w)=>`${n} strength · ${w} walking · 1 rest`,
+  rHint:{2:"Gentle start or busy weeks",3:"Balanced (recommended)",4:"Upper / lower split",5:"Most intense"},
+  sTitle:"When do you want to start?", sSub:"You can reset and start over any time.",
+  begin:"Start my 30 days", saveBtn:"Save", errDate:"Pick a start date first.",
+  extTitle:"Round {n}: how many strength days per week?",
+  switchUser:"Switch user", myBody:"My body", startOver:"Reset & start over",
+  hello:n=>`Hi ${n}`, dayOf:(d,t)=>`Day ${d} of ${t}`, before:d=>`Your plan starts ${d}. Get ready!`,
+  after:"You finished the plan! 🎉", round:n=>`Round ${n}`,
+  sDone:"done", sMissed:"not done", sOff:"days off", sStreak:"day streak",
+  extHint:"On your last day you'll be able to extend for another 30 days.",
+  extReady:"Last day! Want to keep going?", extDone:"Plan finished. Ready for the next round?",
+  extBtn:"Extend for 30 more days 🔥", extNote:"The next round steps up: more sets, heavier weights, longer walks.",
+  toastExt:(n,d)=>`Round ${n} starts ${d}! 🔥`,
+  resetTitle:"Start over?", resetBody:"This clears your plan progress, feedback, days off and water logs. Your weight records stay.",
+  resetGo:"Clear & set up again", cancel:"Cancel",
+  wxTitle:"Today's weather", typical:"typical for this time of year",
+  waterTitle:"Water today", glass:n=>`${n} of 8 glasses`, waterFull:"8 glasses! Your body says thank you 💧", waterPing:"Water break! Have a glass 💧",
+  weightTitle:"Weight", now:"Now", goal:"Goal", start:"Start", kg:"kg", toGo:x=>`${x} kg to go`, reached:"Goal reached! 🎉",
+  wPh:"Today's weight", add:"Add", errW2:"Enter a weight between 30 and 300 kg.", toastW:"Weight saved",
+  calTitle:"Your plan", lgDone:"Done", lgMissed:"Not done", lgOff:"Day off", lgToday:"Today", rest:"Rest",
+  dows:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+  months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+  weekdays:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  dayN:n=>`Day ${n}`, checklist:"Checklist", of:(a,b)=>`${a} of ${b} done`,
+  howDid:"How did today go?", complete:"Mark day complete", notDone:"Mark as not done",
+  fbPh:"Any feedback? How it felt, weights used, any pain… (optional)", whyPh:"Why wasn't it done? (needed to save)",
+  saveDone:"Save as complete", saveMissed:"Save as not done", whyReq:"Write a short reason first.", clear:"Clear status",
+  stDone:"Completed ✓", stMissed:"Not done", yourFb:"Your feedback", yourWhy:"Reason",
+  toastDone:"Day completed! 💪", toastMissed:"Saved. Tomorrow is a new day", toastClear:"Status cleared",
+  dayOff:"🛑 Urgent day off", offTitle:"Urgent day off", offQ:"How should we adjust your plan?",
+  offPush:"Push everything 1 day later", offPushD:"Nothing is lost. Your plan ends one day later.",
+  offSkip:"Skip this day's session", offSkipD:"Your end date stays the same.",
+  offMove:"Move this workout to the next walking day", offMoveD:"End date stays the same. The next walk is replaced by this workout.",
+  offGo:"Confirm day off", toastOff:"Day off saved. Rest up 🌙", offName:"Day off",
+  offWhyPush:"Your plan was pushed one day.", offWhySkip:w=>`Skipped: ${w}`, offWhyMove:w=>`Moved to the next walking day: ${w}`,
+  undoOff:"Cancel this day off", toastUndo:"Day off cancelled", movedFrom:d=>`Moved here from ${d}`,
+  bodyTitle:"My body", bodySub:"Update your pain checklist any time. Your plan adjusts right away.", toastBody:"Plan adjusted for your body",
+  kinds:{R:"Strength",W:"Walking",REST:"Rest",RW:"Rest / light walk",WM:"Walk + measurements",OFF:"Day off"},
+  min:"min", eachSide:"each side", adjusted:"Adjusted for your body",
+  letsGo:"Let's go",
+  foot:"Log in with the same username on any device to continue where you left off.",
+  footLocal:"Progress is saved in this browser only. Sign in to Claude to sync across devices.",
+  syncCloud:"☁️ Synced", syncLocal:"📱 This device only", syncSaving:"☁️ Saving…"
+ },
+ ar:{
+  brand:{n:"فِت ٣٠",f:"بينك ٣٠",m:"آيرون ٣٠"},
+  loginSub:"خطة التمرين بتاعتك لـ٣٠ يوم. اسم المستخدم للمتابعة، أو اسم جديد لبداية رحلة جديدة.",
+  placeholder:"اسم المستخدم", cont:"متابعة", checking:"بندوّر…",
+  errName:"من ٣ لـ٢٤ حرف إنجليزي أو رقم (مسموح _ . -).", savedOn:"محفوظ على الجهاز ده:",
+  back:"رجوع", stepOf:(a,b)=>`خطوة ${a} من ${b}`,
+  gTitle:n=>`أهلاً ${n}! مين اللي هيتمرن؟`, female:"أنثى", male:"ذكر",
+  wTitle:"الوزن", wSub:{f:"هنستخدمه عشان نتابع تقدمك.",m:"هنستخدمه عشان نتابع تقدمك."}, wCur:"الوزن الحالي (كجم)", wGoal:"الوزن المستهدف (كجم)",
+  errW:{f:"اكتبي الوزنين بين ٣٠ و٣٠٠ كجم.",m:"اكتب الوزنين بين ٣٠ و٣٠٠ كجم."},
+  pTitle:"عندك أي ألم أو إصابة؟", pSub:{f:"علّمي على أي حاجة بتوجعك، وهنبدّل التمارين عشان نحميها.",m:"علّم على أي حاجة بتوجعك، وهنبدّل التمارين عشان نحميها."},
+  pNone:"مفيش ألم، كله تمام", pSevere:"الألم حاد، أو بيزيد، أو من إصابة قريبة",
+  severeNote:{f:"من فضلك اسألي دكتور أو أخصائي علاج طبيعي قبل ما تبدأي. وقّفي أي تمرين بيعمل ألم حاد.",m:"من فضلك اسأل دكتور أو أخصائي علاج طبيعي قبل ما تبدأ. وقّف أي تمرين بيعمل ألم حاد."},
+  rTitle:{f:"عايزة كام يوم مقاومة في الأسبوع؟",m:"عايز كام يوم مقاومة في الأسبوع؟"}, rSub:"باقي الأيام مشي، ويوم راحة.",
+  rDesc:(n,w)=>`${n} مقاومة · ${w} مشي · ١ راحة`,
+  rHint:{2:"بداية هادية أو أسابيع مشغولة",3:"متوازن (مُقترح)",4:"تقسيم علوي / سفلي",5:"الأقوى"},
+  sTitle:{f:"عايزة تبدأي إمتى؟",m:"عايز تبدأ إمتى؟"}, sSub:{f:"تقدري تمسحي وتبدأي من الأول في أي وقت.",m:"تقدر تمسح وتبدأ من الأول في أي وقت."},
+  begin:{f:"ابدأي الـ٣٠ يوم",m:"ابدأ الـ٣٠ يوم"}, saveBtn:"حفظ", errDate:"اختار/ي تاريخ البداية الأول.",
+  extTitle:{f:"الجولة {n}: عايزة كام يوم مقاومة في الأسبوع؟",m:"الجولة {n}: عايز كام يوم مقاومة في الأسبوع؟"},
+  switchUser:"تغيير المستخدم", myBody:"جسمي", startOver:"امسح وابدأ من الأول",
+  hello:n=>`أهلاً ${n}`, dayOf:(d,t)=>`اليوم ${d} من ${t}`, before:d=>`الخطة بتبدأ ${d}. استعد!`,
+  after:{f:"خلصتي الخطة! 🎉",m:"خلصت الخطة! 🎉"}, round:n=>`الجولة ${n}`,
+  sDone:"اتعمل", sMissed:"ماتعملش", sOff:"إجازات", sStreak:"أيام ورا بعض",
+  extHint:{f:"في آخر يوم هتقدري تمدّي الخطة ٣٠ يوم كمان.",m:"في آخر يوم هتقدر تمدّ الخطة ٣٠ يوم كمان."},
+  extReady:{f:"آخر يوم! عايزة تكمّلي؟",m:"آخر يوم! عايز تكمّل؟"}, extDone:{f:"الخطة خلصت. جاهزة للجولة الجاية؟",m:"الخطة خلصت. جاهز للجولة الجاية؟"},
+  extBtn:"مدّ الخطة ٣٠ يوم كمان 🔥", extNote:"الجولة الجاية أصعب: سِتّات أكتر، أوزان أتقل، ومشي أطول.",
+  toastExt:(n,d)=>`الجولة ${n} بتبدأ ${d}! 🔥`,
+  resetTitle:"تبدأ من الأول؟", resetBody:"ده هيمسح تقدم الخطة والملاحظات والإجازات والمية. تسجيلات الوزن هتفضل زي ما هي.",
+  resetGo:"امسح وظبّط من جديد", cancel:"إلغاء",
+  wxTitle:"الجو النهارده", typical:"المعتاد في الوقت ده من السنة",
+  waterTitle:"المية النهارده", glass:n=>`${n} من ٨ كوبايات`, waterFull:"٨ كوبايات! جسمك بيشكرك 💧", waterPing:"وقت المية! كوباية 💧",
+  weightTitle:"الوزن", now:"دلوقتي", goal:"الهدف", start:"البداية", kg:"كجم", toGo:x=>`باقي ${x} كجم`, reached:{f:"وصلتي للهدف! 🎉",m:"وصلت للهدف! 🎉"},
+  wPh:"وزن النهارده", add:"إضافة", errW2:"الوزن لازم يكون بين ٣٠ و٣٠٠ كجم.", toastW:"الوزن اتسجّل",
+  calTitle:"خطتك", lgDone:"اتعمل", lgMissed:"ماتعملش", lgOff:"إجازة", lgToday:"النهارده", rest:"راحة",
+  dows:["إتنين","تلات","أربع","خميس","جمعة","سبت","حد"],
+  months:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],
+  weekdays:["الأحد","الإتنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
+  dayN:n=>`اليوم ${n}`, checklist:"قائمة التمارين", of:(a,b)=>`${a} من ${b} خلصوا`,
+  howDid:"اليوم كان عامل إزاي؟", complete:{f:"خلصت اليوم",m:"خلصت اليوم"}, notDone:{f:"ماعملتوش",m:"ماعملتوش"},
+  fbPh:"أي ملاحظات؟ الإحساس، الأوزان، أي ألم… (اختياري)", whyPh:"ليه ماتعملش؟ (لازم عشان يتحفظ)",
+  saveDone:"احفظ إنه خلص", saveMissed:"احفظ إنه ماتعملش", whyReq:"اكتب/ي السبب الأول.", clear:"امسح الحالة",
+  stDone:"خلص ✓", stMissed:"ماتعملش", yourFb:"ملاحظاتك", yourWhy:"السبب",
+  toastDone:{f:"برافو عليكي! 💖",m:"عاش يا بطل! 💪"}, toastMissed:"اتحفظ. بكره يوم جديد", toastClear:"الحالة اتمسحت",
+  dayOff:"🛑 إجازة طارئة", offTitle:"إجازة طارئة", offQ:"نظبط الخطة إزاي؟",
+  offPush:"أجّل كل حاجة يوم", offPushD:"مفيش حاجة هتضيع. الخطة هتخلص بعد يوم زيادة.",
+  offSkip:"اتخطّى حصة اليوم ده", offSkipD:"تاريخ النهاية زي ما هو.",
+  offMove:"انقل التمرين لأول يوم مشي جاي", offMoveD:"تاريخ النهاية زي ما هو، وأول يوم مشي هيبقى التمرين ده.",
+  offGo:"تأكيد الإجازة", toastOff:"الإجازة اتسجلت. ارتاح/ي 🌙", offName:"إجازة",
+  offWhyPush:"الخطة اتأجلت يوم.", offWhySkip:w=>`اتخطّى: ${w}`, offWhyMove:w=>`اتنقل لأول يوم مشي: ${w}`,
+  undoOff:"إلغاء الإجازة", toastUndo:"الإجازة اتلغت", movedFrom:d=>`اتنقل هنا من ${d}`,
+  bodyTitle:"جسمي", bodySub:"عدّل/ي قائمة الألم في أي وقت، والخطة هتتظبط على طول.", toastBody:"الخطة اتظبطت على جسمك",
+  kinds:{R:"مقاومة",W:"مشي",REST:"راحة",RW:"راحة / مشي خفيف",WM:"مشي + قياسات",OFF:"إجازة"},
+  min:"دقيقة", eachSide:"لكل ناحية", adjusted:"متعدّل عشان جسمك",
+  letsGo:"يلا بينا",
+  foot:"ادخل/ي بنفس اسم المستخدم من أي جهاز وكمّل/ي من مكان ما وقفت.",
+  footLocal:"التقدم محفوظ في المتصفح ده بس. سجّل/ي دخول في Claude عشان يتزامن على كل الأجهزة.",
+  syncCloud:"☁️ متزامن", syncLocal:"📱 الجهاز ده بس", syncSaving:"☁️ بيتحفظ…"
+ }
+};
+function gsel(v){ return (v && typeof v==="object" && !Array.isArray(v) && "f" in v && "m" in v && typeof v.f!=="object") ? v[G==="m"?"m":"f"] : v; }
+const t = (k,...a)=>{ let v = T[lang][k]; if(v && typeof v==="object" && !Array.isArray(v) && "n" in v) v = v[G]; else v = gsel(v); return typeof v==="function" ? v(...a) : v; };
+const num = n => lang==="ar" ? String(n).replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]) : String(n);
+const doneIcon = () => G==="f" ? "💖" : "✅";
+
+/* ================= exercise library ================= */
+// notes in Arabic are written in neutral (non-gendered) form
+const EX = {
+  bridge:["Glute Bridge","Push through your heels and lift your hips. Works the glutes with very little knee load.","الضغط بالكعبين ورفع الحوض. شغل على الـglutes من غير تحميل على الركبة."],
+  bridge_s:["Glute Bridge (short range)","Lift only as high as feels comfortable for the hip.","الرفع لحد ما الحوض يبقى مرتاح بس."],
+  sl_bridge:["Single-leg Glute Bridge","One foot down, the other leg up. Hips stay level.","رجل على الأرض والتانية لفوق، والحوض مستوي."],
+  rdl:["Dumbbell Romanian Deadlift","Knees only slightly bent; the movement comes from the hips.","الركبة مثنية بشكل بسيط بس، والحركة الأساسية من الحوض."],
+  rdl_l:["Light RDL (short range)","Lighter weights; stop the dumbbells around knee height.","أوزان أخف، والدمبلز تقف عند مستوى الركبة."],
+  pull:["Band Pull-Through","Hinge at the hips with a band behind you. Trains the glutes without loading the spine.","انحناء من الحوض والـband ورا. شغل glutes من غير تحميل على العمود الفقري."],
+  thrust:["Hip Thrust","Upper back on a bench or sofa, drive hips up, pause at the top.","أعلى الضهر على كنبة أو بنش، رفع الحوض والثبات فوق ثانية."],
+  abd:["Band Glute Abduction","Band above the knees, push the knees outward with control.","الـband فوق الركبة، وفتح الركب لبرا بتحكم."],
+  clam:["Clamshell","Lying on your side, open the top knee in a small, slow range.","على الجنب، فتح الركبة اللي فوق بحركة صغيرة وبطيئة."],
+  calf:["Dumbbell Calf Raise","If this bothers your knee, skip it.","لو بيوجع الركبة، يتلغي."],
+  scalf:["Seated Calf Raise","Seated with weight on your knees; less stress on the knee joint.","قعدة والوزن على الركبة؛ ضغط أقل على مفصل الركبة."],
+  press:["Seated Dumbbell Shoulder Press","Sit tall with back support, core tight, no arching.","قعدة مفرودة والضهر مسنود، والبطن مشدودة من غير تقويس."],
+  face:["Band Face Pull","Pull the band toward your face, elbows high. Shoulder-friendly.","سحب الـband ناحية الوش والكوع لفوق. مريح للكتف."],
+  row:["One-arm Dumbbell Row","Pull the elbow back toward your hip, squeeze your back.","سحب الكوع لورا ناحية الحوض وضغط عضلات الضهر."],
+  crow:["Chest-supported Dumbbell Row","Chest on an incline bench, so your lower back stays unloaded.","الصدر على بنش مايل، فأسفل الضهر مرتاح."],
+  floor:["Dumbbell Floor Press","Lying on the floor, press up; elbows stop at the floor.","على الأرض، الدفع لفوق؛ الكوع يقف عند الأرض."],
+  floor_n:["Neutral-grip Floor Press (light)","Palms facing each other, wrists straight, lighter weight.","الكفوف قصاد بعض، الرسغ مفرود، ووزن أخف."],
+  lat:["Lateral Raises","Light weight, slow and controlled, up to shoulder height.","وزن خفيف، ببطء وتحكم، لحد مستوى الكتف."],
+  lat_p:["Partial Lateral Raise","Raise only to about 60°, pain-free.","الرفع لحد حوالي ٦٠ درجة بس ومن غير ألم."],
+  curl:["Biceps Curl","Elbows stay by your sides.","الكوع ثابت جنب الجسم."],
+  hammer:["Hammer Curl (light)","Neutral grip is easier on the wrists and elbows.","المسكة المحايدة أريح للرسغ والكوع."],
+  tri:["Overhead Triceps Extension","Move only the forearm; upper arm stays still.","الحركة من الساعد بس؛ الذراع من فوق ثابت."],
+  kick:["Triceps Kickback","Upper arm by your side, extend the forearm back.","الذراع جنب الجسم، وفرد الساعد لورا."],
+  deadbug:["Dead Bug","Lower back stays pressed into the floor the whole time.","أسفل الضهر لازق في الأرض طول الوقت."],
+  bird:["Bird Dog","Opposite arm and leg, slow, hips level.","إيد ورجل عكس بعض، ببطء، والحوض مستوي."],
+  bird_f:["Bird Dog (on forearms)","On your forearms to keep weight off the wrists.","على الساعدين عشان مفيش ضغط على الرسغ."],
+  splank:["Side Plank (on knees)","Hips up in a straight line, breathe steadily.","الحوض لفوق في خط مستقيم، والتنفس منتظم."]
+};
+const SIDE = new Set(["row","crow","sl_bridge","clam","bird","bird_f","splank"]);
+const WK = {
+  FBA:["Full Body A",[["bridge","3 × 12–15"],["rdl","3 × 10–12"],["press","3 × 10–12"],["row","3 × 10–12"],["floor","3 × 10–12"],["lat","2 × 12–15"],["deadbug","3 × 8–10"]]],
+  FBB:["Full Body B",[["rdl","3 × 10–12"],["bridge","3 × 12–15"],["row","3 × 10–12"],["floor","3 × 10–12"],["press","2 × 10–12"],["abd","2 × 15–20"],["deadbug","3 × 10"]]],
+  LA:["Lower A",[["bridge","3 × 15"],["rdl","3 × 10–12"],["thrust","3 × 10–15"],["abd","3 × 15–20"],["calf","2 × 15"],["deadbug","3 × 10"]]],
+  LB:["Lower B",[["thrust","3 × 10–12"],["sl_bridge","3 × 8–10"],["rdl","3 × 10–12"],["clam","2 × 15"],["calf","2 × 15"],["splank","2 × 20–30s"]]],
+  UC:["Upper + Core",[["row","3 × 10–12"],["floor","3 × 10–12"],["press","3 × 10–12"],["lat","2 × 12–15"],["curl","2 × 12"],["tri","2 × 12"],["deadbug","3 × 10"],["bird","2 × 8–10"]]],
+  U:["Upper",[["row","3 × 10–12"],["floor","3 × 10–12"],["press","3 × 10–12"],["lat","2 × 12–15"],["curl","2 × 12"],["tri","2 × 12"]]],
+  FBL:["Full Body (light)",[["bridge","2 × 12–15"],["rdl","2 × 10–12"],["press","2 × 10–12"],["row","2 × 10–12"],["floor","2 × 10–12"],["lat","2 × 12"],["deadbug","2 × 8–10"]]]
+};
+
+/* ================= pain adaptations ================= */
+const PAINS = {
+  knee:{em:"🦵",en:"Knee",ar:"الركبة",subs:{calf:"scalf",sl_bridge:"bridge"},
+    tip:{en:"Knee: no lunges, squats or jumping. Stop any move that hurts more than a mild 3/10.",ar:"الركبة: مفيش lunges ولا squats ولا نط. أي حركة توجع أكتر من خفيف (٣/١٠) تتوقف."}},
+  back:{em:"🔙",en:"Lower back",ar:"أسفل الضهر",subs:{rdl:"pull",rdl_l:"pull",row:"crow",thrust:"bridge"},
+    tip:{en:"Lower back: spine neutral, no rounding, brace your core on every rep.",ar:"أسفل الضهر: الضهر مفرود من غير تقويس، والبطن مشدودة في كل عدّة."}},
+  shoulder:{em:"💪",en:"Shoulder",ar:"الكتف",subs:{press:"face",lat:"lat_p",floor:"floor_n",tri:"kick"},
+    tip:{en:"Shoulder: no overhead pressing. Keep every move light and pain-free.",ar:"الكتف: مفيش رفع فوق الراس. كل الحركات خفيفة ومن غير ألم."}},
+  wrist:{em:"✋",en:"Wrist / elbow",ar:"الرسغ / الكوع",subs:{floor:"floor_n",curl:"hammer",bird:"bird_f"},
+    tip:{en:"Wrist/elbow: neutral grip, wrists straight, lighter dumbbells.",ar:"الرسغ/الكوع: مسكة محايدة، الرسغ مفرود، ودمبلز أخف."}},
+  hip:{em:"🦴",en:"Hip",ar:"الحوض / مفصل الفخذ",subs:{rdl:"rdl_l",thrust:"bridge_s",bridge:"bridge_s",sl_bridge:"bridge_s",abd:"clam"},
+    tip:{en:"Hip: shorter range of motion and no deep hinging.",ar:"الحوض: مدى حركة أقصر ومن غير انحناء عميق."}},
+  neck:{em:"🧣",en:"Neck",ar:"الرقبة",subs:{press:"face",lat:"lat_p"},
+    tip:{en:"Neck: head neutral, shoulders down, no shrugging.",ar:"الرقبة: الراس في وضعها الطبيعي والكتف لتحت من غير شدّ."}},
+  ankle:{em:"🦶",en:"Ankle / foot",ar:"الكاحل / القدم",subs:{calf:null,scalf:null},
+    tip:{en:"Ankle/foot: no calf raises. Use a stationary bike or a slow, flat walk.",ar:"الكاحل/القدم: مفيش calf raise. عجلة ثابتة أو مشي هادي على أرض مستوية."}}
+};
+function adapt(list, pains){
+  const out = [], seen = new Set();
+  list.forEach(([id,sets])=>{
+    let cur = id, swapped = false;
+    for(let pass=0; pass<3; pass++){
+      let changed = false;
+      for(const p of pains){ const s = PAINS[p]?.subs; if(s && cur in s){ const nx = s[cur]; if(nx!==cur){ cur = nx; changed = true; swapped = true; } if(cur===null) break; } }
+      if(!changed || cur===null) break;
+    }
+    if(cur===null || seen.has(cur)) return;
+    seen.add(cur); out.push({id:cur, sets, swapped});
+  });
+  return out;
+}
+
+/* ================= plan generator ================= */
+const PATTERNS = {2:["R","W","W","R","W","W","X"],3:["R","W","R","W","R","W","X"],4:["R","R","W","R","R","W","X"],5:["R","R","W","R","R","R","X"]};
+const ROT = {2:["FBA","FBB"],3:["LA","UC","FBB"],4:["LA","U","LB","UC"],5:["LA","U","FBB","LB","UC"]};
+const WALK = [["30–40","40–45","45–50","50–60","45–60"],["45–50","50–55","50–60","55–60","50–60"]];
+const pad = n => String(n).padStart(2,"0");
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y,m-1,d); };
+const addDays = (d,n) => new Date(d.getFullYear(), d.getMonth(), d.getDate()+n);
+const todayISO = () => iso(new Date());
+
+function baseSessions(rdays, cycle){
+  const pat = PATTERNS[rdays] || PATTERNS[3], rot = ROT[rdays] || ROT[3];
+  const c = Math.min(cycle,2)-1; const out = []; let r = 0;
+  for(let i=0;i<30;i++){
+    const w = Math.min(Math.floor(i/7),4);
+    if(i===28){ out.push({type:"R",wk:"FBL",week:w}); continue; }
+    if(i===29){ out.push({type:"WM",mins:WALK[c][4],week:w}); continue; }
+    const k = pat[i%7];
+    if(k==="R"){
+      let wk = rot[r % rot.length];
+      if(rdays===3 && cycle===1 && r===0) wk = "FBA";
+      r++; out.push({type:"R",wk,week:w});
+    } else if(k==="W") out.push({type:"W",mins:WALK[c][w],week:w});
+    else out.push({type: w%2===1 ? "RW" : "REST", week:w});
+  }
+  return out;
+}
+function buildEntries(st){
+  const base = baseSessions(st.rdays, st.cycle||1);
+  const offs = {}; (st.offs||[]).forEach(o=>offs[o.date]=o);
+  const entries = []; let p = 0, carry = null, d = parse(st.start), guard = 0;
+  while(p < base.length && guard++ < 400){
+    const key = iso(d), off = offs[key];
+    if(off && off.mode==="push"){ entries.push({date:key, s:{type:"OFF",mode:"push"}}); d = addDays(d,1); continue; }
+    const s = base[p++];
+    if(off){ entries.push({date:key, s:{type:"OFF",mode:off.mode,skipped:s}}); if(off.mode==="move" && s.type==="R") carry = {...s, movedFrom:key}; d = addDays(d,1); continue; }
+    if(carry && s.type==="W"){ entries.push({date:key, s:carry}); carry = null; }
+    else entries.push({date:key, s});
+    d = addDays(d,1);
+  }
+  return entries;
+}
+function setsFor(sets, s, cycle){
+  if(cycle===1 && s.week===0) return sets.replace(/^3 ×/,"2 ×");
+  if(cycle>=2) return sets.replace(/^3 ×/,"4 ×").replace(/^2 ×/,"3 ×");
+  return sets;
+}
+function sessionTitle(s){
+  if(s.type==="R") return "R · " + WK[s.wk][0];
+  if(s.type==="W") return "W · " + num(s.mins) + " " + t("min");
+  if(s.type==="WM") return "W · " + num(s.mins) + " " + t("min") + (lang==="ar"?" + قياسات":" + measurements");
+  return t("kinds")[s.type];
+}
+function dayDetail(e){
+  const s = e.s, items = [], notes = [], cyc = state.cycle||1, pains = state.pains||[];
+  const L = (en,ar) => lang==="ar" ? ar : en;
+  if(s.type==="R"){
+    items.push({id:"warm",name:L("Warm-up: 5 min easy walk","تسخين: ٥ دقايق مشي هادي"),sets:"",note:L("Get the blood flowing before lifting.","تسخين الجسم قبل الأوزان.")});
+    adapt(WK[s.wk][1], pains).forEach(x=>{ const ex = EX[x.id]; items.push({id:x.id,name:ex[0],sets:setsFor(x.sets,s,cyc)+(SIDE.has(x.id)?" "+t("eachSide"):""),note:lang==="ar"?ex[2]:ex[1],swapped:x.swapped}); });
+    items.push({id:"cool",name:L("Stretch 5 min","إطالة ٥ دقايق"),sets:"",note:L("Hamstrings, glutes, chest, shoulders.","خلف الفخذ، الـglutes، الصدر، الكتف.")});
+    if(cyc===1 && s.week===0) notes.push(L("First week: go easy. We're seeing how your body responds.","أول أسبوع: براحة. بنشوف جسمك هيتقبل إيه."));
+    if(cyc>=2) notes.push(L("Round "+cyc+": go a little heavier than last month while keeping good form.","الجولة "+num(cyc)+": وزن أتقل شوية من الشهر اللي فات مع الحفاظ على الأداء الصح."));
+    if(s.wk==="FBL") notes.push(L("Lighter weights today. Finish feeling good, not wiped out.","أوزان أخف النهارده. نخلّص وإحنا مبسوطين مش مهدودين."));
+    if(s.movedFrom) notes.push(t("movedFrom", fmtDate(parse(s.movedFrom))));
+  } else if(s.type==="W"||s.type==="WM"){
+    const bike = pains.includes("ankle"), easy = bike || pains.includes("knee");
+    items.push({id:"w1",name:L("5 min easy pace","٥ دقايق سرعة هادية"),sets:"",note:L("Warm-up","تسخين")});
+    const main = bike ? L("Stationary bike or slow flat walk ","عجلة ثابتة أو مشي هادي على أرض مستوية ") : (cyc>=2 && !easy ? L("Brisk walk with incline intervals ","مشي نشيط مع فترات ميل ") : L("Brisk walk ","مشي نشيط "));
+    items.push({id:"w2",name:main+num(s.mins)+" "+t("min"),sets:"",note: cyc>=2 && !easy ? L("2 min at 4–6% incline, 2 min flat, repeat.","٢ دقيقة ميل ٤–٦٪، و٢ دقيقة مستوي، وكرر.") : L("Brisk pace: you can talk, but not sing.","سرعة نشيطة: تقدر/ي تتكلم/ي بس مش تغني.")});
+    items.push({id:"w3",name:L("5 min cool-down + stretch","٥ دقايق تهدئة + إطالة"),sets:"",note:""});
+    if(easy) notes.push(L("Keep the treadmill flat today, no incline.","الـtreadmill مستوي النهارده من غير ميل."));
+    if(s.type==="WM"){
+      notes.push(L("Last day! Walk, then take your measurements and log your weight below.","آخر يوم! مشي، وبعدين القياسات وتسجيل الوزن تحت."));
+      (lang==="ar"?["الوزن (الصبح قبل الأكل)","الوسط","الحوض","الفخذ","الدراع","صور قدام / جنب / ضهر"]:["Weight (morning, before eating)","Waist","Hips","Thigh","Upper arm","Photos: front / side / back"]).forEach((m,k)=>items.push({id:"q"+k,name:m,sets:"",note:""}));
+    }
+  } else if(s.type==="RW"){
+    items.push({id:"l1",name:L("Light walk 20–30 min (optional)","مشي خفيف ٢٠–٣٠ دقيقة (اختياري)"),sets:"",note:""});
+    items.push({id:"l2",name:L("10 min stretching","إطالة ١٠ دقايق"),sets:"",note:""});
+    notes.push(L("Recovery is part of the plan.","الراحة جزء من الخطة."));
+  } else if(s.type==="REST"){
+    items.push({id:"r1",name:L("Sleep 7–9 hours","نوم ٧–٩ ساعات"),sets:"",note:""});
+    items.push({id:"r2",name:L("8 glasses of water","٨ كوبايات مية"),sets:"",note:""});
+    notes.push(L("Full rest day. Enjoy it, no guilt.","يوم راحة كاملة. استمتع/ي من غير ذنب."));
+  } else if(s.type==="OFF"){
+    notes.push(s.mode==="push" ? t("offWhyPush") : s.mode==="move" ? t("offWhyMove", sessionTitle(s.skipped)) : t("offWhySkip", sessionTitle(s.skipped)));
+  }
+  if(s.type==="R"||s.type==="W"||s.type==="WM") pains.forEach(p=>PAINS[p] && notes.push(PAINS[p].em+" "+PAINS[p].tip[lang]));
+  return {items, notes};
+}
+const kindIcon = s => s.type==="R" ? (G==="f"?"🏋️‍♀️":"🏋️") : s.type==="OFF" ? "🛑" : s.type==="REST" ? "🌙" : s.type==="RW" ? (G==="f"?"🌷":"🧘") : "👟";
+
+/* ================= weather / motivation ================= */
+const CITIES = {
+  cairo:{en:"Cairo",ar:"القاهرة",m:[[19,9],[21,10],[24,12],[28,15],[33,18],[35,21],[35,22],[35,22],[33,21],[30,18],[25,14],[21,11]]},
+  alex:{en:"Alexandria",ar:"إسكندرية",m:[[18,9],[19,10],[21,11],[24,14],[27,17],[29,21],[30,23],[31,23],[30,22],[28,19],[24,15],[20,11]]},
+  giza:{en:"Giza",ar:"الجيزة",m:[[19,8],[21,9],[24,11],[28,14],[32,17],[35,20],[35,21],[35,22],[33,20],[30,18],[25,13],[21,10]]},
+  hurghada:{en:"Hurghada",ar:"الغردقة",m:[[22,11],[23,12],[25,14],[28,18],[31,21],[33,24],[34,26],[34,26],[32,24],[30,21],[26,17],[23,13]]},
+  aswan:{en:"Aswan",ar:"أسوان",m:[[23,9],[26,10],[30,13],[35,18],[39,22],[41,25],[41,26],[41,26],[39,24],[36,20],[29,14],[25,10]]},
+  riyadh:{en:"Riyadh",ar:"الرياض",m:[[20,9],[23,11],[28,15],[33,20],[39,25],[43,27],[44,29],[44,29],[41,26],[35,20],[27,14],[22,10]]},
+  jeddah:{en:"Jeddah",ar:"جدة",m:[[29,19],[29,19],[31,20],[33,22],[35,24],[37,25],[38,27],[37,28],[36,27],[35,24],[32,22],[30,20]]},
+  dubai:{en:"Dubai",ar:"دبي",m:[[24,14],[25,15],[28,18],[33,21],[38,25],[40,28],[41,30],[41,30],[39,27],[35,23],[30,19],[26,16]]},
+  kuwait:{en:"Kuwait City",ar:"الكويت",m:[[19,8],[22,10],[27,14],[33,20],[40,26],[45,29],[46,31],[46,30],[43,26],[36,21],[27,14],[21,9]]},
+  doha:{en:"Doha",ar:"الدوحة",m:[[22,14],[23,15],[27,18],[32,22],[38,27],[41,29],[41,31],[40,31],[38,28],[35,25],[29,20],[24,16]]},
+  amman:{en:"Amman",ar:"عمّان",m:[[12,4],[14,4],[18,7],[23,11],[28,15],[31,18],[32,20],[33,20],[31,18],[27,14],[20,9],[14,5]]},
+  london:{en:"London",ar:"لندن",m:[[8,3],[9,3],[12,4],[15,6],[18,9],[21,12],[24,14],[23,14],[20,12],[16,9],[11,6],[9,3]]}
+};
+function weatherLine(){
+  const c = CITIES[state.city] || CITIES.cairo, now = new Date(), [hi,lo] = c.m[now.getMonth()], name = c[lang];
+  const f = G==="f"; let s;
+  if(lang==="ar"){
+    if(hi>=33) s = `الجو حر في ${name}: العظمى حوالي ${num(hi)}°. المشي بدري أو بعد المغرب، و${f?"خدي":"خد"} مية ${f?"معاكي":"معاك"}.`;
+    else if(hi>=27) s = `الجو دافي في ${name}: حوالي ${num(hi)}° بالنهار و${num(lo)}° بالليل. لبس خفيف ومية زيادة النهارده.`;
+    else if(hi>=18) s = `جو حلو للتمرين في ${name}: حوالي ${num(hi)}°، وبيبرد لـ${num(lo)}° بالليل.`;
+    else s = `الجو بارد في ${name}: حوالي ${num(hi)}° و${num(lo)}° بالليل. ${f?"طوّلي":"طوّل"} التسخين شوية.`;
+  } else {
+    if(hi>=33) s = `Hot in ${name}: highs around ${hi}°. Walk early or after sunset, and bring water.`;
+    else if(hi>=27) s = `Warm in ${name}: about ${hi}° by day, ${lo}° at night. Light clothes and extra water today.`;
+    else if(hi>=18) s = `Great workout weather in ${name}: around ${hi}°, cooling to ${lo}° at night.`;
+    else s = `Cold in ${name}: about ${hi}° and ${lo}° at night. Warm up a little longer today.`;
+  }
+  return s + ` (${t("typical")})`;
+}
+const MOTIV = {
+  en:{f:["Small steps every day add up to big changes.","You don't have to be extreme, just consistent.","Strong is beautiful, and you're getting stronger. 💕","Showing up is the hardest part, and you're here.","Progress, not perfection.","Future you is already saying thank you."],
+      m:["Discipline beats motivation. Show up anyway.","Small wins every day build a strong body.","You don't need to be extreme, just consistent.","The only bad workout is the one you skipped.","Progress, not perfection. Let's work. 💪","Future you is already saying thank you."]},
+  ar:{f:["خطوات صغيرة كل يوم بتعمل فرق كبير.","مش لازم تبقي جامدة، المهم تبقي مستمرة.","القوة حلوة، وإنتي كل يوم أقوى 💕","أصعب حاجة إنك تيجي، وإنتي هنا أهو.","التقدم مش الكمال.","إنتي بعد شهر بتشكرك من دلوقتي."],
+      m:["الالتزام أهم من الحماس. تعالى حتى لو مش مزاجك.","مكاسب صغيرة كل يوم بتبني جسم قوي.","مش لازم تبقى جامد، المهم تبقى مستمر.","التمرين الوحش الوحيد هو اللي ماعملتوش.","التقدم مش الكمال. يلا نشتغل 💪","إنت بعد شهر بتشكرك من دلوقتي."]}
+};
+const WATER = {
+  en:["Sip before you're thirsty 💧","Keep a bottle next to you while you train.","A glass of water right after waking up is a great start.","Water helps your muscles recover after training."],
+  ar:{f:["اشربي قبل ما تعطشي 💧","خلّي إزازة مية جنبك وإنتي بتتمرني.","كوباية مية أول ما تصحي بداية حلوة.","المية بتساعد عضلاتك تتعافى بعد التمرين."],
+      m:["اشرب قبل ما تعطش 💧","خلّي إزازة مية جنبك وإنت بتتمرن.","كوباية مية أول ما تصحى بداية حلوة.","المية بتساعد عضلاتك تتعافى بعد التمرين."]}
+};
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const motiv = () => pick(MOTIV[lang][G==="m"?"m":"f"]);
+const waterTip = () => { const w = WATER[lang]; return pick(Array.isArray(w) ? w : w[G==="m"?"m":"f"]); };
+
+/* ================= state + sync ================= */
+let user = null, state = null, entries = [];
+const lkey = u => "fit30:u:" + u;
+const users = () => store.get("fit30:users") || [];
+function remember(u){ const l = users(); if(!l.includes(u)){ l.push(u); store.set("fit30:users",l); } store.set("fit30:last",u); }
+
+let db = null, cloudOK = false;
+const dbReady = (window.claude && typeof window.claude.use==="function")
+  ? Promise.race([window.claude.use("db").catch(()=>null), new Promise(r=>setTimeout(()=>r(null),6000))])
+  : Promise.resolve(null);
+dbReady.then(d=>{ db = d; cloudOK = !!d; updateSync(); });
+const ref = u => db.doc("profiles/" + u);
+
+async function fetchProfile(u){
+  await dbReady;
+  if(db){ try{ const snap = await ref(u).get(); if(snap.exists) return {data:JSON.parse(JSON.stringify(snap.data())), cloud:true}; }catch(e){ cloudOK = false; } }
+  const local = store.get(lkey(u)) || store.get("pink30:u:"+u); // includes profiles from the previous version
+  return local ? {data:local, cloud:false} : null;
+}
+let saveTimer = null, writing = false, dirty = false, saving = false;
+function persist(){
+  if(!user) return;
+  state.updated = Date.now(); store.set(lkey(user), state);
+  if(!db || !cloudOK){ updateSync(); return; }
+  dirty = true; saving = true; updateSync();
+  clearTimeout(saveTimer); saveTimer = setTimeout(flush, 700);
+}
+async function flush(){
+  if(writing || !dirty || !db || !cloudOK || !user) return;
+  writing = true; dirty = false;
+  try{ await ref(user).set(JSON.parse(JSON.stringify(state))); saving = false; }
+  catch(e){ if(e && e.code==="unavailable"){ dirty = true; setTimeout(flush, 1500+Math.random()*1000); } else { cloudOK = false; saving = false; } }
+  writing = false; updateSync(); if(dirty) flush();
+}
+function updateSync(){
+  const el = $("#sync"); if(!el) return; const cloud = db && cloudOK;
+  el.textContent = !cloud ? t("syncLocal") : saving ? t("syncSaving") : t("syncCloud");
+  $("#foot").textContent = cloud ? t("foot") : t("footLocal");
+}
+
+/* ================= helpers ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(msg){ const el = document.createElement("div"); el.className="toast"; el.setAttribute("role","status"); el.textContent=msg; document.body.appendChild(el); setTimeout(()=>el.remove(),2600); }
+function fmtDate(d){ return lang==="ar" ? `${t("weekdays")[d.getDay()]} ${num(d.getDate())} ${t("months")[d.getMonth()]}` : `${t("weekdays")[d.getDay()]}, ${t("months")[d.getMonth()]} ${d.getDate()}`; }
+const kgFmt = x => num((Math.round(x*10)/10).toString());
+function setG(g){ G = g; document.documentElement.dataset.g = g; }
+function modal(html){ $("#modalRoot").innerHTML = `<div class="scrim mid" id="mScrim"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; $("#mScrim").onclick = e => { if(e.target.id==="mScrim") closeModal(); }; }
+function closeModal(){ $("#modalRoot").innerHTML = ""; }
+
+/* ================= language ================= */
+function applyLang(){
+  document.documentElement.lang = lang; document.documentElement.dir = lang==="ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-lang-toggle]").forEach(el=>el.textContent = lang==="ar" ? "English" : "عربي");
+  document.title = t("brand");
+}
+document.addEventListener("click", e=>{
+  if(!e.target.closest("[data-lang-toggle]")) return;
+  lang = lang==="ar" ? "en" : "ar"; store.set("fit30:lang",lang); applyLang();
+  if(user && !$("#app").classList.contains("hidden")) renderApp(); else renderGate();
+  if(openDate) renderSheet(openDate);
+  updateSync();
+});
+
+/* ================= gate: username + wizard ================= */
+let wiz = null; // {steps, i, data, mode}
+function renderGate(){
+  const card = $("#gateCard");
+  if(!wiz){
+    setG("n");
+    const list = users();
+    card.innerHTML = `<div class="center"><div style="font-size:2.6rem">🌿</div><h1>${t("brand")}</h1><p class="muted" style="margin:0 0 18px">${t("loginSub")}</p></div>
+      <input id="uname" class="field" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="24" placeholder="${esc(t("placeholder"))}" aria-label="${esc(t("placeholder"))}">
+      <button id="goName" class="btn block" style="margin-top:12px">${t("cont")}</button>
+      <p id="gErr" class="err" role="alert"></p>
+      ${list.length ? `<div class="profiles"><div style="width:100%;font-size:.85rem" class="muted center">${t("savedOn")}</div>${list.map(u=>`<button class="chip" data-u="${esc(u)}">${esc(u)}</button>`).join("")}</div>` : ""}
+      <div class="center" style="margin-top:16px"><button class="chip" data-lang-toggle>${lang==="ar"?"English":"عربي"}</button></div>`;
+    $("#goName").onclick = () => lookup($("#uname").value);
+    $("#uname").onkeydown = e => { if(e.key==="Enter") lookup($("#uname").value); };
+    card.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>lookup(b.dataset.u));
+    return;
+  }
+  renderStep();
+}
+const cleanName = raw => { const n = (raw||"").trim().toLowerCase().replace(/\s+/g,"_"); return /^[a-z0-9_.-]{3,24}$/.test(n) ? n : null; };
+async function lookup(raw){
+  const name = cleanName(raw), err = $("#gErr");
+  if(!name){ if(err) err.textContent = t("errName"); return; }
+  if(err) err.textContent = t("checking"); const btn = $("#goName"); if(btn) btn.disabled = true;
+  const found = await fetchProfile(name);
+  if(btn) btn.disabled = false; if(err) err.textContent = "";
+  if(found){
+    const d = migrate(found.data);
+    const missing = ["gender","weight","pain","rdays"].filter(k => (k==="gender"&&!d.gender)||(k==="weight"&&!d.goalW)||(k==="pain"&&!d.pains)||(k==="rdays"&&!d.rdays));
+    if(missing.length){ startWizard(name, missing, d, "fill", !found.cloud); return; }
+    enter(name, d, !found.cloud); return;
+  }
+  startWizard(name, ["gender","weight","pain","rdays","start"], {start:todayISO(), pains:[], rdays:3, cycle:1, city:"cairo", days:{}, offs:[], water:{}, weights:[], created:Date.now()}, "new", true);
+}
+function migrate(d){
+  d.days = d.days || {}; d.water = d.water || {}; d.offs = d.offs || []; d.weights = d.weights || []; d.cycle = d.cycle || 1; d.city = d.city || "cairo";
+  if(!d.start) d.start = "2026-10-05";
+  // v1 stored days by index; convert to dates
+  const s = parse(d.start); Object.keys(d.days).forEach(k=>{ if(/^\d+$/.test(k)){ const nk = iso(addDays(s,+k)); if(!d.days[nk]) d.days[nk] = d.days[k]; delete d.days[k]; } });
+  if(d.gender) setG(d.gender);
+  return d;
+}
+function startWizard(name, steps, data, mode, push){ wiz = {name, steps, i:0, data, mode, push}; if(data.gender) setG(data.gender); renderStep(); }
+function stepHead(){
+  const n = wiz.steps.length; if(n<2) return "";
+  return `<div class="steps" aria-label="${esc(t("stepOf",wiz.i+1,n))}">${wiz.steps.map((_,k)=>`<i class="${k<=wiz.i?"on":""}"></i>`).join("")}</div>`;
+}
+function painOptions(sel, severe){
+  return `<div class="choice" id="painList">
+    <button class="opt ${sel.length?"":"sel"}" data-p="none" aria-pressed="${!sel.length}"><span class="em">😊</span><b>${t("pNone")}</b></button>
+    ${Object.entries(PAINS).map(([k,p])=>`<button class="opt ${sel.includes(k)?"sel":""}" data-p="${k}" aria-pressed="${sel.includes(k)}"><span class="em">${p.em}</span><b>${p[lang]}</b></button>`).join("")}
+  </div>
+  <label class="opt" style="margin-top:14px;cursor:pointer"><input type="checkbox" id="severe" ${severe?"checked":""} style="width:20px;height:20px;accent-color:var(--accent)"><span>${t("pSevere")}</span></label>
+  <div id="sevNote" class="box warn ${severe?"":"hidden"}">⚠️ ${t("severeNote")}</div>`;
+}
+function bindPain(sel){
+  document.querySelectorAll("#painList [data-p]").forEach(b=>b.onclick=()=>{
+    const k = b.dataset.p;
+    if(k==="none") sel.length = 0; else { const i = sel.indexOf(k); i>=0 ? sel.splice(i,1) : sel.push(k); }
+    document.querySelectorAll("#painList [data-p]").forEach(x=>{ const on = x.dataset.p==="none" ? !sel.length : sel.includes(x.dataset.p); x.classList.toggle("sel",on); x.setAttribute("aria-pressed",on); });
+  });
+  $("#severe").onchange = e => $("#sevNote").classList.toggle("hidden", !e.target.checked);
+}
+function rdaysOptions(cur){
+  return `<div class="choice" id="rdList">${[2,3,4,5].map(n=>`<button class="opt ${cur===n?"sel":""}" data-r="${n}" aria-pressed="${cur===n}"><span class="em" style="font-weight:800;font-size:1.5rem;width:30px;text-align:center">${num(n)}</span><span><b>${t("rHint")[n]}</b><small>${t("rDesc",num(n),num(6-n))}</small></span></button>`).join("")}</div>`;
+}
+function bindRdays(obj){
+  document.querySelectorAll("#rdList [data-r]").forEach(b=>b.onclick=()=>{ obj.rdays = +b.dataset.r; document.querySelectorAll("#rdList [data-r]").forEach(x=>{ const on = +x.dataset.r===obj.rdays; x.classList.toggle("sel",on); x.setAttribute("aria-pressed",on); }); });
+}
+function renderStep(){
+  const card = $("#gateCard"), step = wiz.steps[wiz.i], d = wiz.data, last = wiz.i===wiz.steps.length-1;
+  const nav = (label) => `<p id="gErr" class="err" role="alert"></p><button id="next" class="btn block">${label || (last ? (wiz.mode==="new"||wiz.mode==="reset" ? t("begin") : t("saveBtn")) : t("cont"))}</button>
+    <div class="center"><button class="link" id="prev">${t("back")}</button></div>`;
+  let html = stepHead();
+  if(step==="gender"){
+    html += `<h2 class="center">${esc(t("gTitle", wiz.name))}</h2>
+      <div class="gpick"><button data-g="f"><span>👩</span>${t("female")}</button><button data-g="m"><span>👨</span>${t("male")}</button></div>
+      <div class="center" style="margin-top:12px"><button class="link" id="prev">${t("back")}</button></div>`;
+  } else if(step==="weight"){
+    html += `<h2>${t("wTitle")}</h2><p class="muted" style="margin:0">${t("wSub")}</p>
+      <label class="lb" for="wc">${t("wCur")}</label><input id="wc" class="field" type="number" inputmode="decimal" step="0.1" min="30" max="300" value="${d.startW||""}">
+      <label class="lb" for="wg">${t("wGoal")}</label><input id="wg" class="field" type="number" inputmode="decimal" step="0.1" min="30" max="300" value="${d.goalW||""}">` + nav();
+  } else if(step==="pain"){
+    if(!d.pains) d.pains = [];
+    html += `<h2>${t("pTitle")}</h2><p class="muted" style="margin:0">${t("pSub")}</p>` + painOptions(d.pains, d.severe) + nav();
+  } else if(step==="rdays"){
+    if(!d.rdays) d.rdays = 3;
+    html += `<h2>${wiz.mode==="extend" ? esc(t("extTitle").replace("{n}", num((d.cycle||1)+1))) : t("rTitle")}</h2><p class="muted" style="margin:0">${t("rSub")}</p>` + rdaysOptions(d.rdays)
+      + (wiz.mode==="extend" ? `<div class="box">🔥 ${t("extNote")}</div>` : "") + nav();
+  } else if(step==="start"){
+    html += `<h2>${t("sTitle")}</h2><p class="muted" style="margin:0">${t("sSub")}</p>
+      <input id="sd" class="field" type="date" style="margin-top:14px" value="${esc(d.start||todayISO())}" aria-label="${esc(t("sTitle"))}">` + nav();
+  }
+  card.innerHTML = html;
+  const prev = $("#prev");
+  if(prev) prev.onclick = () => {
+    if(wiz.i>0){ wiz.i--; renderStep(); return; }
+    const m = wiz.mode; wiz = null;
+    if(m==="new"||m==="fill"){ user = null; renderGate(); } else { showApp(); }
+  };
+  const go = () => { if(wiz.i < wiz.steps.length-1){ wiz.i++; renderStep(); } else finishWizard(); };
+  if(step==="gender") card.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{ d.gender = b.dataset.g; setG(d.gender); go(); });
+  if(step==="weight") $("#next").onclick = () => {
+    const a = parseFloat($("#wc").value), b = parseFloat($("#wg").value);
+    if(!(a>=30&&a<=300&&b>=30&&b<=300)){ $("#gErr").textContent = t("errW"); return; }
+    d.startW = a; d.goalW = b; if(!d.weights.length) d.weights = [{date:todayISO(), kg:a}]; go();
+  };
+  if(step==="pain"){ bindPain(d.pains); $("#next").onclick = () => { d.severe = $("#severe").checked; go(); }; }
+  if(step==="rdays"){ bindRdays(d); $("#next").onclick = go; }
+  if(step==="start") $("#next").onclick = () => { const v = $("#sd").value; if(!/^\d{4}-\d{2}-\d{2}$/.test(v)){ $("#gErr").textContent = t("errDate"); return; } d.start = v; go(); };
+  const first = card.querySelector("input,.gpick button,#next"); if(first) first.focus({preventScroll:true});
+}
+function finishWizard(){
+  const {name, data, mode, push} = wiz; wiz = null;
+  if(mode==="extend"){
+    const prevEnd = entries.length ? parse(entries[entries.length-1].date) : new Date();
+    const nextDay = addDays(prevEnd,1), today = parse(todayISO());
+    data.history = data.history || []; data.history.push({cycle:data.cycle, start:data.start, end:iso(prevEnd), rdays:data.rdays_prev||data.rdays});
+    data.cycle = (data.cycle||1)+1; data.start = iso(nextDay > today ? nextDay : today); data.offs = [];
+    delete data.rdays_prev;
+    enter(name, data, true); toast(t("toastExt", num(data.cycle), fmtDate(parse(data.start)))); return;
+  }
+  enter(name, data, true);
+}
+function enter(name, data, push){
+  user = name; state = data; if(state.gender) setG(state.gender);
+  state.name = name; remember(name);
+  if(push) persist();
+  showApp(); showWelcome(); startWaterPings();
+}
+function showApp(){ $("#gate").classList.add("hidden"); $("#app").classList.remove("hidden"); renderApp(); updateSync(); window.scrollTo(0,0); }
+function showGate(){ $("#app").classList.add("hidden"); $("#gate").classList.remove("hidden"); renderGate(); }
+
+/* ================= app ================= */
+$("#logout").onclick = async () => { clearTimeout(saveTimer); await flush(); user = null; state = null; wiz = null; store.set("fit30:last",null); showGate(); };
+$("#bodyBtn").onclick = () => openBody();
+
+function stats(){
+  let done=0, missed=0, off=0;
+  entries.forEach(e=>{ if(e.s.type==="OFF") off++; const st = state.days[e.date]?.status; if(st==="done") done++; else if(st==="missed") missed++; });
+  const ti = entries.findIndex(e=>e.date===todayISO()); let streak = 0;
+  if(ti>=0) for(let i=ti;i>=0;i--){ const e = entries[i], st = state.days[e.date]?.status; if(e.s.type==="OFF") continue; if(st==="done") streak++; else if(i===ti && !st) continue; else break; }
+  return {done, missed, off, streak, ti};
+}
+function renderApp(){
+  entries = buildEntries(state);
+  const brandIcon = G==="f" ? "🎀" : "⚡";
+  $("#logo").innerHTML = `<span>${brandIcon}</span><span>${esc(t("brand"))}</span>`;
+  $("#bodyBtn").textContent = t("myBody"); $("#logout").textContent = t("switchUser");
+  document.title = t("brand");
+  const st = stats(), today = todayISO(), first = entries[0].date, lastE = entries[entries.length-1];
+  let sub;
+  if(today < first) sub = t("before", fmtDate(parse(first)));
+  else if(today > lastE.date) sub = t("after");
+  else sub = t("dayOf", num(st.ti+1), num(entries.length)) + " · " + sessionTitle(entries[st.ti].s);
+  const onLast = today >= lastE.date;
+  $("#hero").innerHTML = `<h2>${esc(t("hello", user))} ${G==="f"?"💕":"👋"}</h2>
+    <p class="sub">${(state.cycle||1)>1 ? esc(t("round", num(state.cycle)))+" · " : ""}${esc(sub)}</p>
+    <div class="ribbon" aria-hidden="true">${entries.map(e=>{ const s = state.days[e.date]?.status; return `<span class="${e.s.type==="OFF"?"o":s==="done"?"d":s==="missed"?"x":""}"></span>`; }).join("")}</div>
+    <div class="stats"><span><b>${num(st.done)}</b>/${num(entries.length - st.off)} ${t("sDone")}</span><span><b>${num(st.missed)}</b> ${t("sMissed")}</span><span><b>${num(st.off)}</b> ${t("sOff")}</span><span><b>${num(st.streak)}</b> ${t("sStreak")}</span></div>
+    ${onLast ? `<div class="ext"><b>${today===lastE.date ? t("extReady") : t("extDone")}</b><div class="muted">${t("extNote")}</div><button class="btn" id="extBtn">${t("extBtn")}</button></div>`
+             : `<div class="ext muted">🔁 ${t("extHint")}</div>`}
+    <button class="link" id="startOver">${t("startOver")}</button>`;
+  const eb = $("#extBtn"); if(eb) eb.onclick = startExtend;
+  $("#startOver").onclick = confirmReset;
+  $("#sevBanner").innerHTML = state.severe ? `<div class="box warn" style="margin:0 0 16px">⚠️ ${t("severeNote")}</div>` : "";
+
+  // weather + water
+  $("#wxTitle").textContent = t("wxTitle"); $("#waterTitle").textContent = t("waterTitle");
+  const sel = $("#city"); sel.innerHTML = Object.entries(CITIES).map(([k,c])=>`<option value="${k}" ${k===state.city?"selected":""}>${c[lang]}</option>`).join("");
+  sel.onchange = () => { state.city = sel.value; persist(); $("#weatherLine").textContent = weatherLine(); };
+  $("#weatherLine").textContent = weatherLine();
+  renderWater(); renderWeight();
+
+  // calendar
+  $("#calTitle").textContent = t("calTitle");
+  $("#dow").innerHTML = t("dows").map(d=>`<div>${d}</div>`).join("");
+  const s0 = parse(first), lead = (s0.getDay()+6)%7, total = Math.ceil((lead+entries.length)/7)*7, g = $("#grid");
+  let html = "", lastM = -1;
+  for(let c=0;c<total;c++){
+    const i = c-lead, d = addDays(s0,i);
+    if(c%7===0){ const m = addDays(s0,Math.max(i,0)).getMonth(); if(m!==lastM){ html += `<div class="mlabel">${t("months")[m]} ${num(addDays(s0,Math.max(i,0)).getFullYear())}</div>`; lastM = m; } }
+    if(i<0 || i>=entries.length){ html += `<div class="day out" aria-hidden="true"><span class="dnum">${num(d.getDate())}</span></div>`; continue; }
+    const e = entries[i], stt = state.days[e.date]?.status, off = e.s.type==="OFF";
+    const cls = "day" + (off?" offday":stt==="done"?" done":stt==="missed"?" missed":"") + (e.date===today?" today":"");
+    const badge = off ? "" : stt==="done" ? `<span class="badge">${doneIcon()}</span>` : stt==="missed" ? `<span class="badge">☁️</span>` : "";
+    html += `<button class="${cls}" data-date="${e.date}" aria-label="${esc(t("dayN",i+1)+", "+fmtDate(d)+", "+sessionTitle(e.s)+(stt?", "+(stt==="done"?t("stDone"):t("stMissed")):""))}">${badge}<span class="dnum">${num(d.getDate())}</span><span class="dmon">${t("months")[d.getMonth()]}</span><span class="kind">${kindIcon(e.s)}</span><span class="lbl">${t("dayN",num(i+1))}</span></button>`;
+  }
+  g.innerHTML = html;
+  g.querySelectorAll("[data-date]").forEach(b=>b.onclick=()=>openSheet(b.dataset.date));
+  $("#legend").innerHTML = `<span><i style="background:var(--accent)"></i>${t("lgDone")}</span><span><i style="background:var(--off)"></i>${t("lgMissed")}</span><span>🛑 ${t("lgOff")}</span><span><i style="border:2px solid var(--deep)"></i>${t("lgToday")}</span><span>${kindIcon({type:"R"})} R · 👟 W · 🌙 ${t("rest")}</span>`;
+}
+
+/* ---- water ---- */
+function renderWater(){
+  const k = todayISO(), c = state.water[k] || 0;
+  $("#waterLine").textContent = c>=8 ? t("waterFull") : waterTip() + " " + t("glass", num(c));
+  const g = $("#glasses"); g.innerHTML = "";
+  for(let i=1;i<=8;i++){ const b = document.createElement("button"); b.className = "glass"+(i<=c?" full":""); b.setAttribute("aria-label", t("glass",i)); b.onclick = () => { state.water[k] = c===i ? i-1 : i; persist(); renderWater(); }; g.appendChild(b); }
+}
+let pingTimer = null;
+function startWaterPings(){ clearInterval(pingTimer); pingTimer = setInterval(()=>{ if(user && document.visibilityState==="visible") toast(t("waterPing")); }, 45*60*1000); }
+
+/* ---- weight ---- */
+function renderWeight(){
+  const ws = (state.weights||[]).slice().sort((a,b)=>a.date<b.date?-1:1);
+  const startW = state.startW, goalW = state.goalW, cur = ws.length ? ws[ws.length-1].kg : startW;
+  const span = Math.abs(startW-goalW) || 1, moved = goalW<startW ? startW-cur : cur-startW;
+  const pct = Math.max(0, Math.min(100, Math.round(moved/span*100)));
+  const left = goalW<startW ? cur-goalW : goalW-cur;
+  let spark = "";
+  if(ws.length>1){
+    const vals = ws.map(w=>w.kg).concat([goalW]), mn = Math.min(...vals)-1, mx = Math.max(...vals)+1, W = 300, H = 70;
+    const x = i => (i/(ws.length-1))*(W-12)+6, y = v => H-6-((v-mn)/(mx-mn))*(H-12);
+    const pts = ws.map((w,i)=>`${x(i).toFixed(1)},${y(w.kg).toFixed(1)}`).join(" ");
+    spark = `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(t("weightTitle"))}" style="transform:${lang==="ar"?"scaleX(-1)":"none"}">
+      <line x1="0" x2="${W}" y1="${y(goalW)}" y2="${y(goalW)}" stroke="var(--off)" stroke-dasharray="4 4"/>
+      <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      ${ws.map((w,i)=>`<circle cx="${x(i)}" cy="${y(w.kg)}" r="3.5" fill="var(--deep)"/>`).join("")}</svg>`;
+  }
+  $("#weight").innerHTML = `<h3>⚖️ ${t("weightTitle")}</h3>
+    <div class="wnums"><div><b>${kgFmt(startW)}</b><small>${t("start")} (${t("kg")})</small></div><div><b>${kgFmt(cur)}</b><small>${t("now")} (${t("kg")})</small></div><div><b>${kgFmt(goalW)}</b><small>${t("goal")} (${t("kg")})</small></div></div>
+    <div class="wbar"><div style="width:${pct}%"></div></div>
+    <div class="muted" style="font-size:.88rem">${left<=0 ? t("reached") : t("toGo", kgFmt(left))} · ${num(pct)}%</div>
+    ${spark}
+    <div class="wadd"><input id="wIn" class="field" type="number" inputmode="decimal" step="0.1" min="30" max="300" placeholder="${esc(t("wPh"))} (${t("kg")})" aria-label="${esc(t("wPh"))}"><button class="btn" id="wAdd">${t("add")}</button></div>
+    <p class="err" id="wErr" role="alert" style="min-height:0"></p>
+    <ul class="wlist">${ws.slice(-5).reverse().map(w=>`<li><span>${esc(fmtDate(parse(w.date)))}</span><span><b>${kgFmt(w.kg)}</b> ${t("kg")} <button data-wd="${w.date}" aria-label="Delete">✕</button></span></li>`).join("")}</ul>`;
+  const add = () => {
+    const v = parseFloat($("#wIn").value);
+    if(!(v>=30 && v<=300)){ $("#wErr").textContent = t("errW2"); return; }
+    const k = todayISO(); state.weights = (state.weights||[]).filter(w=>w.date!==k); state.weights.push({date:k, kg:v});
+    persist(); renderWeight(); toast(t("toastW"));
+  };
+  $("#wAdd").onclick = add; $("#wIn").onkeydown = e => { if(e.key==="Enter") add(); };
+  document.querySelectorAll("[data-wd]").forEach(b=>b.onclick=()=>{ state.weights = state.weights.filter(w=>w.date!==b.dataset.wd); persist(); renderWeight(); });
+}
+
+/* ---- welcome ---- */
+function showWelcome(){
+  modal(`<div class="big">${G==="f"?"🌸":"⚡"}</div><h2>${esc(motiv())}</h2>
+    <p class="muted">☁️ ${esc(weatherLine())}</p><p class="muted">💧 ${esc(waterTip())}</p>
+    <button class="btn block" id="wGo" style="margin-top:10px">${t("letsGo")}</button>`);
+  $("#wGo").onclick = closeModal; $("#wGo").focus();
+}
+
+/* ---- my body / reset / extend ---- */
+function openBody(){
+  const sel = (state.pains||[]).slice();
+  modal(`<h2>${t("bodyTitle")}</h2><p class="muted center">${t("bodySub")}</p>${painOptions(sel, state.severe)}
+    <div class="row" style="margin-top:16px"><button class="btn" id="bSave">${t("saveBtn")}</button><button class="btn soft" id="bNo">${t("cancel")}</button></div>`);
+  bindPain(sel);
+  $("#bNo").onclick = closeModal;
+  $("#bSave").onclick = () => { state.pains = sel; state.severe = $("#severe").checked; persist(); closeModal(); renderApp(); toast(t("toastBody")); };
+}
+function confirmReset(){
+  modal(`<div class="big">🌱</div><h2>${t("resetTitle")}</h2><p class="muted center">${t("resetBody")}</p>
+    <div class="row" style="margin-top:12px"><button class="btn" id="rGo">${t("resetGo")}</button><button class="btn soft" id="rNo">${t("cancel")}</button></div>`);
+  $("#rNo").onclick = closeModal;
+  $("#rGo").onclick = () => {
+    closeModal();
+    const d = JSON.parse(JSON.stringify(state));
+    d.days = {}; d.offs = []; d.water = {}; d.cycle = 1; d.history = []; d.start = todayISO();
+    $("#app").classList.add("hidden"); $("#gate").classList.remove("hidden");
+    startWizard(user, ["pain","rdays","start"], d, "reset", true);
+  };
+}
+function startExtend(){
+  const d = JSON.parse(JSON.stringify(state)); d.rdays_prev = d.rdays;
+  $("#app").classList.add("hidden"); $("#gate").classList.remove("hidden");
+  startWizard(user, ["pain","rdays"], d, "extend", true);
+}
+
+/* ================= day sheet ================= */
+let openDate = null, mode = null;
+function openSheet(date){ openDate = date; mode = null; renderSheet(date); document.body.style.overflow = "hidden"; }
+function closeSheet(){ openDate = null; $("#sheetRoot").innerHTML = ""; document.body.style.overflow = ""; renderApp(); }
+document.addEventListener("keydown", e=>{ if(e.key!=="Escape") return; if($("#modalRoot").innerHTML) closeModal(); else if(openDate) closeSheet(); });
+
+function renderSheet(date){
+  const idx = entries.findIndex(e=>e.date===date); if(idx<0){ closeSheet(); return; }
+  const e = entries[idx], s = e.s, off = s.type==="OFF";
+  const ds = state.days[date] || {}; ds.checks = ds.checks || {};
+  const {items, notes} = dayDetail(e);
+  const total = items.length, doneN = items.filter(it=>ds.checks[it.id]).length, pct = total ? Math.round(doneN/total*100) : 0;
+  const canOff = ["R","W","WM"].includes(s.type) && date >= todayISO() && ds.status!=="done";
+  const pill = ds.status==="done" ? `<span class="pill s-done">${t("stDone")}</span>` : ds.status==="missed" ? `<span class="pill s-missed">${t("stMissed")}</span>` : "";
+
+  let actions = "";
+  if(off){
+    actions = `<button class="btn soft block" id="undoOff">${t("undoOff")}</button>`;
+  } else if(mode==="done" || mode==="missed"){
+    const isDone = mode==="done";
+    actions = `<h3>${t("howDid")}</h3><textarea class="field" id="noteIn" placeholder="${esc(isDone?t("fbPh"):t("whyPh"))}">${esc(ds.status===mode ? ds.note : "")}</textarea>
+      <p class="err" id="noteErr" role="alert"></p>
+      <div class="row"><button class="btn ${isDone?"":"offc"}" id="saveAct">${isDone?t("saveDone"):t("saveMissed")}</button><button class="btn soft" id="cancelAct">${t("cancel")}</button></div>`;
+  } else {
+    actions = `<h3>${t("howDid")}</h3>
+      <div class="row"><button class="btn" id="doDone">${doneIcon()} ${t("complete")}</button><button class="btn offc" id="doMissed">☁️ ${t("notDone")}</button></div>
+      ${ds.status && ds.note ? `<div class="saved-note"><small>${ds.status==="done"?t("yourFb"):t("yourWhy")}</small>${esc(ds.note)}</div>` : ""}
+      ${ds.status ? `<button class="link" id="clearAct">${t("clear")}</button>` : ""}
+      ${canOff ? `<div style="margin-top:14px"><button class="btn soft block" id="offBtn">${t("dayOff")}</button></div>` : ""}`;
+  }
+  $("#sheetRoot").innerHTML = `<div class="scrim" id="sScrim"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sTitle">
+    <div class="sheet-head"><div>
+      <div class="muted" style="font-size:.9rem">${t("dayN",num(idx+1))} · ${esc(fmtDate(parse(date)))}</div>
+      <h2 id="sTitle">${esc(off ? t("offName") : sessionTitle(s))}</h2>
+      <span class="pill">${kindIcon(s)} ${esc(t("kinds")[s.type])}</span>${pill}
+    </div><button class="x" id="sClose" aria-label="Close">✕</button></div>
+    ${notes.map(n=>`<div class="coach">${esc(n)}</div>`).join("")}
+    ${items.length ? `<div style="font-weight:600;margin-top:14px">${t("checklist")}</div>
+    <div class="prog" aria-hidden="true"><div style="width:${pct}%"></div></div>
+    <div class="muted" style="font-size:.85rem">${t("of",num(doneN),num(total))}</div>
+    <ul class="list">${items.map(it=>`<li class="item${ds.checks[it.id]?" checked":""}">
+      <button class="cb" data-check="${it.id}" role="checkbox" aria-checked="${!!ds.checks[it.id]}" aria-label="${esc(it.name)}">${ds.checks[it.id]?"✓":""}</button>
+      <div><div class="iname">${esc(it.name)}${it.swapped?`<span class="swap">${t("adjusted")}</span>`:""}</div>${it.sets?`<div class="isets">${esc(it.sets)}</div>`:""}${it.note?`<div class="inote">${esc(it.note)}</div>`:""}</div></li>`).join("")}</ul>` : ""}
+    <div class="actions">${actions}</div></div></div>`;
+
+  const keep = fn => () => { const sh = $(".sheet"), sc = sh.scrollTop; fn(); const n = $(".sheet"); if(n) n.scrollTop = sc; };
+  const on = (id,fn) => { const el = document.getElementById(id); if(el) el.onclick = fn; };
+  on("sClose", closeSheet);
+  $("#sScrim").onclick = ev => { if(ev.target.id==="sScrim") closeSheet(); };
+  document.querySelectorAll("[data-check]").forEach(b=>b.onclick = keep(()=>{ ds.checks[b.dataset.check] = !ds.checks[b.dataset.check]; state.days[date] = ds; persist(); renderSheet(date); }));
+  on("doDone", keep(()=>{ mode="done"; renderSheet(date); $("#noteIn").focus(); }));
+  on("doMissed", keep(()=>{ mode="missed"; renderSheet(date); $("#noteIn").focus(); }));
+  on("cancelAct", keep(()=>{ mode=null; renderSheet(date); }));
+  on("clearAct", keep(()=>{ delete ds.status; delete ds.note; delete ds.at; state.days[date] = ds; persist(); toast(t("toastClear")); renderSheet(date); }));
+  on("saveAct", ()=>{
+    const v = $("#noteIn").value.trim();
+    if(mode==="missed" && !v){ $("#noteErr").textContent = t("whyReq"); $("#noteIn").focus(); return; }
+    ds.status = mode; ds.note = v; ds.at = Date.now();
+    if(mode==="done") items.forEach(it=>ds.checks[it.id]=true);
+    state.days[date] = ds; persist(); toast(mode==="done" ? t("toastDone") : t("toastMissed")); mode = null; renderSheet(date); renderApp();
+  });
+  on("offBtn", ()=>openOff(date, s));
+  on("undoOff", ()=>{ state.offs = state.offs.filter(o=>o.date!==date); persist(); toast(t("toastUndo")); renderApp(); renderSheet(date); });
+}
+function openOff(date, s){
+  let choice = "push";
+  const opts = [["push","⏭️",t("offPush"),t("offPushD")],["skip","✂️",t("offSkip"),t("offSkipD")]];
+  if(s.type==="R") opts.push(["move","🔁",t("offMove"),t("offMoveD")]);
+  modal(`<div class="big">🛑</div><h2>${t("offTitle")}</h2><p class="muted center">${esc(fmtDate(parse(date)))} · ${esc(sessionTitle(s))}</p><p style="font-weight:600">${t("offQ")}</p>
+    <div class="choice" id="offList">${opts.map(([k,em,a,b])=>`<button class="opt ${k===choice?"sel":""}" data-o="${k}" aria-pressed="${k===choice}"><span class="em">${em}</span><span><b>${a}</b><small>${b}</small></span></button>`).join("")}</div>
+    <div class="row" style="margin-top:16px"><button class="btn" id="oGo">${t("offGo")}</button><button class="btn soft" id="oNo">${t("cancel")}</button></div>`);
+  document.querySelectorAll("#offList [data-o]").forEach(b=>b.onclick=()=>{ choice = b.dataset.o; document.querySelectorAll("#offList [data-o]").forEach(x=>{ const on = x.dataset.o===choice; x.classList.toggle("sel",on); x.setAttribute("aria-pressed",on); }); });
+  $("#oNo").onclick = closeModal;
+  $("#oGo").onclick = () => {
+    state.offs = (state.offs||[]).filter(o=>o.date!==date); state.offs.push({date, mode:choice, at:Date.now()});
+    const ds = state.days[date]; if(ds){ delete ds.status; delete ds.note; }
+    persist(); closeModal(); toast(t("toastOff")); renderApp(); renderSheet(date);
+  };
+}
+
+/* ================= boot ================= */
+applyLang(); renderGate(); updateSync();
+const last = store.get("fit30:last");
+if(last && cleanName(last)) lookup(last);
+window.addEventListener("pagehide", ()=>{ clearTimeout(saveTimer); flush(); });
+})();
+</script>
+</body>
+</html>
